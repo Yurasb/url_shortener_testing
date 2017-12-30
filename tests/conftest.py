@@ -1,13 +1,13 @@
 import pytest
 
-import test_cases.test_case as cases
+from test_cases.test_case import TEST_SUITE
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='function', params=['http://localhost:7777/shortcut', 'http://localhost:7777/stats'])
 def url(request):
-    return 'http://localhost:7777/shortcut'
+    return request.param
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='function', params=TEST_SUITE)
 def test_case(request):
-    return cases.positive_shortcut
+    return request.param
