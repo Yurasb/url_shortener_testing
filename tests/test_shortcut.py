@@ -4,13 +4,9 @@ from cerberus import Validator
 from requests import request
 
 
-def test_shortcut_status_code():
+def test_shortcut_status_code(purge_all_links):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
+    purge_all_links
     # action
     response = request(
         method='POST',
@@ -21,13 +17,9 @@ def test_shortcut_status_code():
     assert response.status_code == 200
 
 
-def test_shortcut_body():
+def test_shortcut_body(purge_all_links):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
+    purge_all_links
     # action
     response = request(
         method='POST',
@@ -45,13 +37,9 @@ def test_shortcut_body():
     assert v.validate(response.json())
 
 
-def test_shortcut_created():
+def test_shortcut_created(purge_all_links):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
+    purge_all_links
     # action
     request(
         method='POST',
@@ -63,16 +51,11 @@ def test_shortcut_created():
         method='GET',
         url='http://localhost:8888/admin/all_links'
     )
-    assert "https://github.com/Yurasb/url_shortener_testing" in json.dumps(check.json())
+    assert "https://github.com/Yurasb/url_shortener_testing" \
+           in json.dumps(check.json())
 
 
 def test_shortcut_wrong_method_status_code():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
     # action
     response = request(
         method='GET',
@@ -83,12 +66,6 @@ def test_shortcut_wrong_method_status_code():
 
 
 def test_shortcut_wrong_method_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
     # action
     response = request(
         method='GET',
@@ -105,12 +82,6 @@ def test_shortcut_wrong_method_body():
 
 
 def test_shortcut_invalid_json_status_code():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
     # action
     response = request(
         method='POST',
@@ -122,12 +93,6 @@ def test_shortcut_invalid_json_status_code():
 
 
 def test_shortcut_invalid_json_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
     # action
     response = request(
         method='POST',
@@ -139,12 +104,6 @@ def test_shortcut_invalid_json_body():
 
 
 def test_shortcut_invalid_link():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
     # action
     response = request(
         method='POST',

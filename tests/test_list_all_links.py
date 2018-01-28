@@ -2,18 +2,9 @@ from cerberus import Validator
 from requests import request
 
 
-def test_list_all_links_status_code():
+def test_list_all_links_empty_status_code(purge_all_links):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
+    purge_all_links
     # action
     response = request(
         method='GET',
@@ -23,18 +14,40 @@ def test_list_all_links_status_code():
     assert response.status_code == 200
 
 
-def test_list_all_links_body():
+def test_list_all_links_empty_body(purge_all_links):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
+    purge_all_links
+    # action
+    response = request(
+        method='GET',
+        url='http://localhost:8888/admin/all_links'
     )
-    shortcut = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
+    # validation
+    v = Validator({'links': {}})
+    assert v.validate(response.json())
+
+
+def test_list_all_links_not_empty_status_code(
+        purge_all_links, create_shortcut_link
+):
+    # precondition
+    purge_all_links
+    create_shortcut_link
+    # action
+    response = request(
+        method='GET',
+        url='http://localhost:8888/admin/all_links'
     )
+    # validation
+    assert response.status_code == 200
+
+
+def test_list_all_links_not_empty_body(
+        purge_all_links, create_shortcut_link
+):
+    # precondition
+    purge_all_links
+    create_shortcut_link
     # action
     response = request(
         method='GET',
@@ -45,7 +58,7 @@ def test_list_all_links_body():
         {
             'links': {
                 'type': 'dict', 'schema': {
-                    str(shortcut.json()['id']): {
+                    str(create_shortcut_link.json()['id']): {
                         'type': 'string',
                         'allowed': ['https://github.com/Yurasb/url_shortener_testing']
                     }
@@ -78,7 +91,9 @@ def test_all_links_wrong_method_body():
     v = Validator(
         {
             'status': {'type': 'integer', 'allowed': [405]},
-            'message': {'type': 'string', 'allowed': ['Method Not Allowed']}
+            'message': {
+                'type': 'string', 'allowed': ['Method Not Allowed']
+            }
         }
     )
     assert v.validate(response.json())

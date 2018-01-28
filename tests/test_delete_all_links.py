@@ -2,13 +2,9 @@ from cerberus import Validator
 from requests import request
 
 
-def test_delete_all_links_status_code():
+def test_delete_all_links_status_code(create_shortcut_link):
     # precondition
-    request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
+    create_shortcut_link
     # action
     response = request(
         method='DELETE',
@@ -19,13 +15,9 @@ def test_delete_all_links_status_code():
     assert response.status_code == 200
 
 
-def test_delete_all_links_removed():
+def test_delete_all_links_removed(create_shortcut_link):
     # precondition
-    request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
+    create_shortcut_link
     # action
     request(
         method='DELETE',
@@ -63,7 +55,9 @@ def test_delete_all_links_wrong_method_body():
     v = Validator(
         {
             'status': {'type': 'integer', 'allowed': [405]},
-            'message': {'type': 'string', 'allowed': ['Method Not Allowed']}
+            'message': {
+                'type': 'string', 'allowed': ['Method Not Allowed']
+            }
         }
     )
     assert v.validate(response.json())

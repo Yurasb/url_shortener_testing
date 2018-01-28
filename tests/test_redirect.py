@@ -4,107 +4,77 @@ from cerberus import Validator
 from requests import request
 
 
-def test_redirect_status_code():
+def test_redirect_status_code(purge_all_links, create_shortcut_link):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
+    purge_all_links
+    create_shortcut_link
     # action
     response = request(
         method='GET',
-        url='http://localhost:8888/r/{}'.format(create.json()['id'])
+        url='http://localhost:8888/r/{}'.format(
+            create_shortcut_link.json()['id']
+        )
     )
     # validation
     assert response.status_code == 302
 
 
-def test_redirect_is_redirect():
+def test_redirect_is_redirect(purge_all_links, create_shortcut_link):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
+    purge_all_links
+    create_shortcut_link
     # action
     response = request(
         method='GET',
-        url='http://localhost:8888/r/{}'.format(create.json()['id'])
+        url='http://localhost:8888/r/{}'.format(
+            create_shortcut_link.json()['id']
+        )
     )
     # validation
     assert response.is_redirect
 
 
-def test_redirect_body():
+def test_redirect_body(purge_all_links, create_shortcut_link):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
+    purge_all_links
+    create_shortcut_link
     # action
     response = request(
         method='GET',
-        url='http://localhost:8888/r/{}'.format(create.json()['id'])
+        url='http://localhost:8888/r/{}'.format(
+            create_shortcut_link.json()['id']
+        )
     )
     # validation - to be completed using XML-schema
     assert response.content
 
 
-def test_redirect_wrong_method_status_code():
+def test_redirect_wrong_method_status_code(purge_all_links, create_shortcut_link):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
+    purge_all_links
+    create_shortcut_link
     # action
     response = request(
         method='POST',
-        url='http://localhost:8888/r/{}'.format(create.json()['id']),
+        url='http://localhost:8888/r/{}'.format(
+            create_shortcut_link.json()['id']
+        ),
         data='{}'
     )
     # validation
     assert response.status_code == 405
 
 
-def test_redirect_wrong_method_body():
+def test_redirect_wrong_method_body(purge_all_links, create_shortcut_link):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
+    purge_all_links
+    create_shortcut_link
     # action
     response = request(
         method='POST',
-        url='http://localhost:8888/r/{}'.format(create.json()['id']),
+        url='http://localhost:8888/r/{}'.format(
+            create_shortcut_link.json()['id']
+        ),
         data='{}'
     )
     # validation
@@ -117,13 +87,9 @@ def test_redirect_wrong_method_body():
     assert v.validate(response.json())
 
 
-def test_redirect_invalid_id_status_code():
+def test_redirect_invalid_id_status_code(purge_all_links):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
+    purge_all_links
     # action
     response = request(
         method='GET',
@@ -133,13 +99,9 @@ def test_redirect_invalid_id_status_code():
     assert response.status_code == 404
 
 
-def test_redirect_invalid_id_body():
+def test_redirect_invalid_id_body(purge_all_links):
     # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
+    purge_all_links
     # action
     response = request(
         method='GET',
