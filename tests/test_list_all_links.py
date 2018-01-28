@@ -30,7 +30,7 @@ def test_list_all_links_body():
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
-    request(
+    shortcut = request(
         method='POST',
         url='http://localhost:8888/shortcut',
         data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
@@ -40,12 +40,23 @@ def test_list_all_links_body():
         method='GET',
         url='http://localhost:8888/admin/all_links'
     )
-    # validation - to be completed with JSON-schema
-    v = Validator()
+    # validation
+    v = Validator(
+        {
+            'links': {
+                'type': 'dict', 'schema': {
+                    str(shortcut.json()['id']): {
+                        'type': 'string',
+                        'allowed': ['https://github.com/Yurasb/url_shortener_testing']
+                    }
+                }
+            }
+        }
+    )
     assert v.validate(response.json())
 
 
-def test_list_all_links_wrong_method():
+def test_list_all_links_wrong_method_status_code():
     # action
     response = request(
         method='POST',
@@ -53,4 +64,21 @@ def test_list_all_links_wrong_method():
         data='{}'
     )
     # validation
-    assert response.status_code == 406
+    assert response.status_code == 405
+
+
+def test_all_links_wrong_method_body():
+    # action
+    response = request(
+        method='POST',
+        url='http://localhost:8888/admin/all_links',
+        data='{}'
+    )
+    # validation
+    v = Validator(
+        {
+            'status': {'type': 'integer', 'allowed': [405]},
+            'message': {'type': 'string', 'allowed': ['Method Not Allowed']}
+        }
+    )
+    assert v.validate(response.json())
