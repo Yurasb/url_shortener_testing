@@ -1,0 +1,968 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="html">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="body">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="div">
+                <xs:complexType mixed="true">
+                  <xs:sequence>
+                    <xs:element name="div" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType mixed="true">
+                        <xs:sequence>
+                          <xs:element name="a" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="href"/>
+                                  <xs:attribute type="xs:byte" name="tabindex"/>
+                                  <xs:attribute type="xs:string" name="class"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="div" minOccurs="0">
+                            <xs:complexType>
+                              <xs:choice maxOccurs="unbounded" minOccurs="0">
+                                <xs:element name="div">
+                                  <xs:complexType mixed="true">
+                                    <xs:sequence>
+                                      <xs:element name="div" maxOccurs="unbounded" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="div" maxOccurs="unbounded" minOccurs="0">
+                                              <xs:complexType mixed="true">
+                                                <xs:sequence>
+                                                  <xs:element name="ul" minOccurs="0">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="li" maxOccurs="unbounded" minOccurs="0">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element name="a" maxOccurs="unbounded" minOccurs="0">
+                                                                <xs:complexType mixed="true">
+                                                                  <xs:sequence>
+                                                                    <xs:element name="svg" minOccurs="0">
+                                                                      <xs:complexType>
+                                                                        <xs:simpleContent>
+                                                                          <xs:extension base="xs:string">
+                                                                            <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                            <xs:attribute type="xs:byte" name="height" use="optional"/>
+                                                                            <xs:attribute type="xs:byte" name="width" use="optional"/>
+                                                                          </xs:extension>
+                                                                        </xs:simpleContent>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                  </xs:sequence>
+                                                                  <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                                  <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                  <xs:attribute type="xs:string" name="rel" use="optional"/>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                      <xs:attribute type="xs:string" name="class"/>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                  <xs:element name="h1" minOccurs="0">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="svg">
+                                                          <xs:complexType>
+                                                            <xs:simpleContent>
+                                                              <xs:extension base="xs:string">
+                                                                <xs:attribute type="xs:string" name="class"/>
+                                                                <xs:attribute type="xs:byte" name="height"/>
+                                                                <xs:attribute type="xs:byte" name="width"/>
+                                                              </xs:extension>
+                                                            </xs:simpleContent>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="span" maxOccurs="unbounded" minOccurs="0">
+                                                          <xs:complexType mixed="true">
+                                                            <xs:sequence>
+                                                              <xs:element name="a" minOccurs="0">
+                                                                <xs:complexType>
+                                                                  <xs:simpleContent>
+                                                                    <xs:extension base="xs:string">
+                                                                      <xs:attribute type="xs:string" name="href"/>
+                                                                      <xs:attribute type="xs:string" name="class"/>
+                                                                      <xs:attribute type="xs:string" name="rel"/>
+                                                                    </xs:extension>
+                                                                  </xs:simpleContent>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                            <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="strong">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element name="a">
+                                                                <xs:complexType>
+                                                                  <xs:simpleContent>
+                                                                    <xs:extension base="xs:string">
+                                                                      <xs:attribute type="xs:string" name="href"/>
+                                                                    </xs:extension>
+                                                                  </xs:simpleContent>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                      <xs:attribute type="xs:string" name="class"/>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                  <xs:element name="div" maxOccurs="unbounded" minOccurs="0">
+                                                    <xs:complexType mixed="true">
+                                                      <xs:sequence>
+                                                        <xs:element name="details" minOccurs="0">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element name="summary">
+                                                                <xs:complexType mixed="true">
+                                                                  <xs:sequence>
+                                                                    <xs:element name="span">
+                                                                      <xs:complexType>
+                                                                        <xs:simpleContent>
+                                                                          <xs:extension base="xs:string">
+                                                                            <xs:attribute type="xs:string" name="class"/>
+                                                                          </xs:extension>
+                                                                        </xs:simpleContent>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                  </xs:sequence>
+                                                                  <xs:attribute type="xs:string" name="class"/>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                              <xs:element name="div">
+                                                                <xs:complexType>
+                                                                  <xs:sequence>
+                                                                    <xs:element name="div">
+                                                                      <xs:complexType>
+                                                                        <xs:sequence>
+                                                                          <xs:element name="div" maxOccurs="unbounded" minOccurs="0">
+                                                                            <xs:complexType>
+                                                                              <xs:sequence>
+                                                                                <xs:element name="h4" minOccurs="0">
+                                                                                  <xs:complexType mixed="true">
+                                                                                    <xs:sequence>
+                                                                                      <xs:element name="a">
+                                                                                        <xs:complexType>
+                                                                                          <xs:sequence>
+                                                                                            <xs:element name="svg">
+                                                                                              <xs:complexType>
+                                                                                                <xs:simpleContent>
+                                                                                                  <xs:extension base="xs:string">
+                                                                                                    <xs:attribute type="xs:string" name="class"/>
+                                                                                                    <xs:attribute type="xs:byte" name="height"/>
+                                                                                                    <xs:attribute type="xs:byte" name="width"/>
+                                                                                                  </xs:extension>
+                                                                                                </xs:simpleContent>
+                                                                                              </xs:complexType>
+                                                                                            </xs:element>
+                                                                                          </xs:sequence>
+                                                                                          <xs:attribute type="xs:string" name="class"/>
+                                                                                          <xs:attribute type="xs:string" name="href"/>
+                                                                                          <xs:attribute type="xs:string" name="target"/>
+                                                                                          <xs:attribute type="xs:string" name="title"/>
+                                                                                        </xs:complexType>
+                                                                                      </xs:element>
+                                                                                    </xs:sequence>
+                                                                                    <xs:attribute type="xs:string" name="class"/>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                                <xs:element name="p" minOccurs="0">
+                                                                                  <xs:complexType>
+                                                                                    <xs:simpleContent>
+                                                                                      <xs:extension base="xs:string">
+                                                                                        <xs:attribute type="xs:string" name="class"/>
+                                                                                      </xs:extension>
+                                                                                    </xs:simpleContent>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                                <xs:element name="div" minOccurs="0">
+                                                                                  <xs:complexType>
+                                                                                    <xs:sequence>
+                                                                                      <xs:element name="div">
+                                                                                        <xs:complexType>
+                                                                                          <xs:simpleContent>
+                                                                                            <xs:extension base="xs:string">
+                                                                                              <xs:attribute type="xs:string" name="class"/>
+                                                                                            </xs:extension>
+                                                                                          </xs:simpleContent>
+                                                                                        </xs:complexType>
+                                                                                      </xs:element>
+                                                                                    </xs:sequence>
+                                                                                    <xs:attribute type="xs:string" name="class"/>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                                <xs:element name="a" minOccurs="0">
+                                                                                  <xs:complexType>
+                                                                                    <xs:simpleContent>
+                                                                                      <xs:extension base="xs:string">
+                                                                                        <xs:attribute type="xs:string" name="href"/>
+                                                                                        <xs:attribute type="xs:string" name="class"/>
+                                                                                        <xs:attribute type="xs:string" name="rel"/>
+                                                                                      </xs:extension>
+                                                                                    </xs:simpleContent>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                              </xs:sequence>
+                                                                              <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                            </xs:complexType>
+                                                                          </xs:element>
+                                                                        </xs:sequence>
+                                                                        <xs:attribute type="xs:string" name="class"/>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                  </xs:sequence>
+                                                                  <xs:attribute type="xs:string" name="class"/>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                            <xs:attribute type="xs:string" name="class"/>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="div" maxOccurs="unbounded" minOccurs="0">
+                                                          <xs:complexType mixed="true">
+                                                            <xs:sequence>
+                                                              <xs:element name="a" minOccurs="0">
+                                                                <xs:complexType>
+                                                                  <xs:simpleContent>
+                                                                    <xs:extension base="xs:string">
+                                                                      <xs:attribute type="xs:string" name="href"/>
+                                                                      <xs:attribute type="xs:string" name="class"/>
+                                                                    </xs:extension>
+                                                                  </xs:simpleContent>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                              <xs:element name="div" minOccurs="0">
+                                                                <xs:complexType>
+                                                                  <xs:sequence>
+                                                                    <xs:element name="ul" minOccurs="0">
+                                                                      <xs:complexType>
+                                                                        <xs:sequence>
+                                                                          <xs:element name="li" maxOccurs="unbounded" minOccurs="0">
+                                                                            <xs:complexType>
+                                                                              <xs:sequence>
+                                                                                <xs:element name="a">
+                                                                                  <xs:complexType mixed="true">
+                                                                                    <xs:sequence>
+                                                                                      <xs:element name="svg">
+                                                                                        <xs:complexType>
+                                                                                          <xs:simpleContent>
+                                                                                            <xs:extension base="xs:string">
+                                                                                              <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                              <xs:attribute type="xs:byte" name="height" use="optional"/>
+                                                                                              <xs:attribute type="xs:byte" name="width" use="optional"/>
+                                                                                            </xs:extension>
+                                                                                          </xs:simpleContent>
+                                                                                        </xs:complexType>
+                                                                                      </xs:element>
+                                                                                      <xs:element name="span">
+                                                                                        <xs:complexType>
+                                                                                          <xs:simpleContent>
+                                                                                            <xs:extension base="xs:string">
+                                                                                              <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                            </xs:extension>
+                                                                                          </xs:simpleContent>
+                                                                                        </xs:complexType>
+                                                                                      </xs:element>
+                                                                                    </xs:sequence>
+                                                                                    <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                              </xs:sequence>
+                                                                              <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                            </xs:complexType>
+                                                                          </xs:element>
+                                                                        </xs:sequence>
+                                                                        <xs:attribute type="xs:string" name="class"/>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                    <xs:element name="div" minOccurs="0">
+                                                                      <xs:complexType mixed="true">
+                                                                        <xs:sequence>
+                                                                          <xs:element name="ol" minOccurs="0">
+                                                                            <xs:complexType>
+                                                                              <xs:sequence>
+                                                                                <xs:element name="li">
+                                                                                  <xs:complexType>
+                                                                                    <xs:sequence>
+                                                                                      <xs:element name="a">
+                                                                                        <xs:complexType>
+                                                                                          <xs:sequence>
+                                                                                            <xs:element name="span" maxOccurs="unbounded" minOccurs="0">
+                                                                                              <xs:complexType>
+                                                                                                <xs:simpleContent>
+                                                                                                  <xs:extension base="xs:string">
+                                                                                                    <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                                  </xs:extension>
+                                                                                                </xs:simpleContent>
+                                                                                              </xs:complexType>
+                                                                                            </xs:element>
+                                                                                          </xs:sequence>
+                                                                                          <xs:attribute type="xs:string" name="href"/>
+                                                                                        </xs:complexType>
+                                                                                      </xs:element>
+                                                                                    </xs:sequence>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                              </xs:sequence>
+                                                                              <xs:attribute type="xs:string" name="class"/>
+                                                                            </xs:complexType>
+                                                                          </xs:element>
+                                                                          <xs:element name="div" maxOccurs="unbounded" minOccurs="0">
+                                                                            <xs:complexType>
+                                                                              <xs:sequence>
+                                                                                <xs:element name="svg" minOccurs="0">
+                                                                                  <xs:complexType>
+                                                                                    <xs:simpleContent>
+                                                                                      <xs:extension base="xs:string">
+                                                                                        <xs:attribute type="xs:string" name="class"/>
+                                                                                        <xs:attribute type="xs:byte" name="height"/>
+                                                                                        <xs:attribute type="xs:byte" name="width"/>
+                                                                                      </xs:extension>
+                                                                                    </xs:simpleContent>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                                <xs:element name="span" minOccurs="0">
+                                                                                  <xs:complexType>
+                                                                                    <xs:simpleContent>
+                                                                                      <xs:extension base="xs:string">
+                                                                                        <xs:attribute type="xs:string" name="class"/>
+                                                                                      </xs:extension>
+                                                                                    </xs:simpleContent>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                                <xs:element name="div" maxOccurs="unbounded" minOccurs="0">
+                                                                                  <xs:complexType mixed="true">
+                                                                                    <xs:sequence>
+                                                                                      <xs:element name="ul" minOccurs="0">
+                                                                                        <xs:complexType>
+                                                                                          <xs:sequence>
+                                                                                            <xs:element name="li" maxOccurs="unbounded" minOccurs="0">
+                                                                                              <xs:complexType>
+                                                                                                <xs:sequence>
+                                                                                                  <xs:element name="a">
+                                                                                                    <xs:complexType>
+                                                                                                      <xs:simpleContent>
+                                                                                                        <xs:extension base="xs:string">
+                                                                                                          <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                                                                          <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                                        </xs:extension>
+                                                                                                      </xs:simpleContent>
+                                                                                                    </xs:complexType>
+                                                                                                  </xs:element>
+                                                                                                </xs:sequence>
+                                                                                                <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                              </xs:complexType>
+                                                                                            </xs:element>
+                                                                                          </xs:sequence>
+                                                                                        </xs:complexType>
+                                                                                      </xs:element>
+                                                                                      <xs:element name="a" maxOccurs="unbounded" minOccurs="0">
+                                                                                        <xs:complexType>
+                                                                                          <xs:sequence>
+                                                                                            <xs:element name="svg">
+                                                                                              <xs:complexType>
+                                                                                                <xs:simpleContent>
+                                                                                                  <xs:extension base="xs:string">
+                                                                                                    <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                                    <xs:attribute type="xs:byte" name="height" use="optional"/>
+                                                                                                    <xs:attribute type="xs:byte" name="width" use="optional"/>
+                                                                                                  </xs:extension>
+                                                                                                </xs:simpleContent>
+                                                                                              </xs:complexType>
+                                                                                            </xs:element>
+                                                                                            <xs:element name="span">
+                                                                                              <xs:complexType>
+                                                                                                <xs:simpleContent>
+                                                                                                  <xs:extension base="xs:string">
+                                                                                                    <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                                  </xs:extension>
+                                                                                                </xs:simpleContent>
+                                                                                              </xs:complexType>
+                                                                                            </xs:element>
+                                                                                          </xs:sequence>
+                                                                                          <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                          <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                                                          <xs:attribute type="xs:string" name="rel" use="optional"/>
+                                                                                        </xs:complexType>
+                                                                                      </xs:element>
+                                                                                    </xs:sequence>
+                                                                                    <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                              </xs:sequence>
+                                                                              <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                            </xs:complexType>
+                                                                          </xs:element>
+                                                                        </xs:sequence>
+                                                                        <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                    <xs:element name="h3" minOccurs="0">
+                                                                      <xs:complexType>
+                                                                        <xs:simpleContent>
+                                                                          <xs:extension base="xs:string">
+                                                                            <xs:attribute type="xs:string" name="class"/>
+                                                                          </xs:extension>
+                                                                        </xs:simpleContent>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                    <xs:element name="p" maxOccurs="unbounded" minOccurs="0">
+                                                                      <xs:complexType mixed="true">
+                                                                        <xs:sequence>
+                                                                          <xs:element name="a" minOccurs="0">
+                                                                            <xs:complexType>
+                                                                              <xs:simpleContent>
+                                                                                <xs:extension base="xs:string">
+                                                                                  <xs:attribute type="xs:string" name="class"/>
+                                                                                  <xs:attribute type="xs:string" name="href"/>
+                                                                                </xs:extension>
+                                                                              </xs:simpleContent>
+                                                                            </xs:complexType>
+                                                                          </xs:element>
+                                                                        </xs:sequence>
+                                                                        <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                    <xs:element name="em" minOccurs="0">
+                                                                      <xs:complexType>
+                                                                        <xs:simpleContent>
+                                                                          <xs:extension base="xs:string">
+                                                                            <xs:attribute type="xs:string" name="class"/>
+                                                                          </xs:extension>
+                                                                        </xs:simpleContent>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                  </xs:sequence>
+                                                                  <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                            <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="span" minOccurs="0">
+                                                          <xs:complexType>
+                                                            <xs:simpleContent>
+                                                              <xs:extension base="xs:string">
+                                                                <xs:attribute type="xs:string" name="class"/>
+                                                              </xs:extension>
+                                                            </xs:simpleContent>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="img" minOccurs="0">
+                                                          <xs:complexType>
+                                                            <xs:simpleContent>
+                                                              <xs:extension base="xs:string">
+                                                                <xs:attribute type="xs:string" name="alt"/>
+                                                                <xs:attribute type="xs:string" name="class"/>
+                                                                <xs:attribute type="xs:byte" name="height"/>
+                                                                <xs:attribute type="xs:string" name="src"/>
+                                                                <xs:attribute type="xs:byte" name="width"/>
+                                                              </xs:extension>
+                                                            </xs:simpleContent>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="a" minOccurs="0">
+                                                          <xs:complexType>
+                                                            <xs:simpleContent>
+                                                              <xs:extension base="xs:string">
+                                                                <xs:attribute type="xs:string" name="href"/>
+                                                                <xs:attribute type="xs:string" name="class"/>
+                                                              </xs:extension>
+                                                            </xs:simpleContent>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="table" minOccurs="0">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element name="tbody">
+                                                                <xs:complexType>
+                                                                  <xs:sequence>
+                                                                    <xs:element name="tr" maxOccurs="unbounded" minOccurs="0">
+                                                                      <xs:complexType>
+                                                                        <xs:sequence>
+                                                                          <xs:element name="td" maxOccurs="unbounded" minOccurs="0">
+                                                                            <xs:complexType mixed="true">
+                                                                              <xs:sequence>
+                                                                                <xs:element name="svg" minOccurs="0">
+                                                                                  <xs:complexType>
+                                                                                    <xs:simpleContent>
+                                                                                      <xs:extension base="xs:string">
+                                                                                        <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                        <xs:attribute type="xs:byte" name="height" use="optional"/>
+                                                                                        <xs:attribute type="xs:byte" name="width" use="optional"/>
+                                                                                      </xs:extension>
+                                                                                    </xs:simpleContent>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                                <xs:element name="img" minOccurs="0">
+                                                                                  <xs:complexType>
+                                                                                    <xs:simpleContent>
+                                                                                      <xs:extension base="xs:string">
+                                                                                        <xs:attribute type="xs:string" name="alt" use="optional"/>
+                                                                                        <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                        <xs:attribute type="xs:byte" name="height" use="optional"/>
+                                                                                        <xs:attribute type="xs:string" name="src" use="optional"/>
+                                                                                        <xs:attribute type="xs:byte" name="width" use="optional"/>
+                                                                                      </xs:extension>
+                                                                                    </xs:simpleContent>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                                <xs:element name="span" minOccurs="0">
+                                                                                  <xs:complexType mixed="true">
+                                                                                    <xs:sequence>
+                                                                                      <xs:element name="a" minOccurs="0">
+                                                                                        <xs:complexType>
+                                                                                          <xs:simpleContent>
+                                                                                            <xs:extension base="xs:string">
+                                                                                              <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                                                              <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                              <xs:attribute type="xs:string" name="id" use="optional"/>
+                                                                                              <xs:attribute type="xs:string" name="title" use="optional"/>
+                                                                                            </xs:extension>
+                                                                                          </xs:simpleContent>
+                                                                                        </xs:complexType>
+                                                                                      </xs:element>
+                                                                                    </xs:sequence>
+                                                                                    <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                                  </xs:complexType>
+                                                                                </xs:element>
+                                                                              </xs:sequence>
+                                                                              <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                              <xs:attribute type="xs:byte" name="colspan" use="optional"/>
+                                                                            </xs:complexType>
+                                                                          </xs:element>
+                                                                        </xs:sequence>
+                                                                        <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                  </xs:sequence>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                            <xs:attribute type="xs:string" name="class"/>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="h3" minOccurs="0">
+                                                          <xs:complexType mixed="true">
+                                                            <xs:sequence>
+                                                              <xs:element name="svg">
+                                                                <xs:complexType>
+                                                                  <xs:simpleContent>
+                                                                    <xs:extension base="xs:string">
+                                                                      <xs:attribute type="xs:string" name="class"/>
+                                                                      <xs:attribute type="xs:byte" name="height"/>
+                                                                      <xs:attribute type="xs:byte" name="width"/>
+                                                                    </xs:extension>
+                                                                  </xs:simpleContent>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="article" minOccurs="0">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element name="h1">
+                                                                <xs:complexType mixed="true">
+                                                                  <xs:sequence>
+                                                                    <xs:element name="a">
+                                                                      <xs:complexType>
+                                                                        <xs:sequence>
+                                                                          <xs:element name="svg">
+                                                                            <xs:complexType>
+                                                                              <xs:simpleContent>
+                                                                                <xs:extension base="xs:string">
+                                                                                  <xs:attribute type="xs:string" name="class"/>
+                                                                                  <xs:attribute type="xs:byte" name="height"/>
+                                                                                  <xs:attribute type="xs:byte" name="width"/>
+                                                                                </xs:extension>
+                                                                              </xs:simpleContent>
+                                                                            </xs:complexType>
+                                                                          </xs:element>
+                                                                        </xs:sequence>
+                                                                        <xs:attribute type="xs:string" name="href"/>
+                                                                        <xs:attribute type="xs:string" name="class"/>
+                                                                        <xs:attribute type="xs:string" name="id"/>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                  </xs:sequence>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                              <xs:element name="p">
+                                                                <xs:complexType mixed="true">
+                                                                  <xs:sequence>
+                                                                    <xs:element name="a">
+                                                                      <xs:complexType>
+                                                                        <xs:simpleContent>
+                                                                          <xs:extension base="xs:string">
+                                                                            <xs:attribute type="xs:string" name="href"/>
+                                                                          </xs:extension>
+                                                                        </xs:simpleContent>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                  </xs:sequence>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                            <xs:attribute type="xs:string" name="class"/>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                      <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                      <xs:attribute type="xs:string" name="title" use="optional"/>
+                                                      <xs:attribute type="xs:string" name="id" use="optional"/>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute type="xs:string" name="class" use="optional"/>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="nav" minOccurs="0">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="span" maxOccurs="unbounded" minOccurs="0">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="a">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element name="svg">
+                                                                <xs:complexType>
+                                                                  <xs:simpleContent>
+                                                                    <xs:extension base="xs:string">
+                                                                      <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                      <xs:attribute type="xs:byte" name="height" use="optional"/>
+                                                                      <xs:attribute type="xs:byte" name="width" use="optional"/>
+                                                                    </xs:extension>
+                                                                  </xs:simpleContent>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                              <xs:element name="span" maxOccurs="unbounded" minOccurs="0">
+                                                                <xs:complexType>
+                                                                  <xs:simpleContent>
+                                                                    <xs:extension base="xs:string">
+                                                                      <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                    </xs:extension>
+                                                                  </xs:simpleContent>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                            <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                            <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                  <xs:element name="a" maxOccurs="unbounded" minOccurs="0">
+                                                    <xs:complexType mixed="true">
+                                                      <xs:sequence>
+                                                        <xs:element name="svg">
+                                                          <xs:complexType>
+                                                            <xs:simpleContent>
+                                                              <xs:extension base="xs:string">
+                                                                <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                <xs:attribute type="xs:byte" name="height" use="optional"/>
+                                                                <xs:attribute type="xs:byte" name="width" use="optional"/>
+                                                              </xs:extension>
+                                                            </xs:simpleContent>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                        <xs:element name="span" minOccurs="0">
+                                                          <xs:complexType>
+                                                            <xs:simpleContent>
+                                                              <xs:extension base="xs:byte">
+                                                                <xs:attribute type="xs:string" name="class"/>
+                                                              </xs:extension>
+                                                            </xs:simpleContent>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                      <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                      <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute type="xs:string" name="class"/>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute type="xs:string" name="class" use="optional"/>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="class" use="optional"/>
+                                    <xs:attribute type="xs:string" name="id" use="optional"/>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="ul">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="li" maxOccurs="unbounded" minOccurs="0">
+                                        <xs:complexType mixed="true">
+                                          <xs:sequence>
+                                            <xs:element name="span" minOccurs="0">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute type="xs:string" name="title"/>
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="a" minOccurs="0">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute type="xs:string" name="class" use="optional"/>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="class"/>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="a">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="svg" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:simpleContent>
+                                            <xs:extension base="xs:string">
+                                              <xs:attribute type="xs:string" name="class"/>
+                                              <xs:attribute type="xs:byte" name="height"/>
+                                              <xs:attribute type="xs:byte" name="width"/>
+                                            </xs:extension>
+                                          </xs:simpleContent>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="li" maxOccurs="unbounded" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="a">
+                                              <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:extension base="xs:string">
+                                                    <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                  </xs:extension>
+                                                </xs:simpleContent>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute type="xs:string" name="class" use="optional"/>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="href" use="optional"/>
+                                    <xs:attribute type="xs:string" name="class" use="optional"/>
+                                    <xs:attribute type="xs:string" name="title" use="optional"/>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:choice>
+                              <xs:attribute type="xs:string" name="id" use="optional"/>
+                              <xs:attribute type="xs:string" name="class" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="header" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="div">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="div" maxOccurs="unbounded" minOccurs="0">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="a" minOccurs="0">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="svg">
+                                                    <xs:complexType>
+                                                      <xs:simpleContent>
+                                                        <xs:extension base="xs:string">
+                                                          <xs:attribute type="xs:string" name="class"/>
+                                                          <xs:attribute type="xs:byte" name="height"/>
+                                                          <xs:attribute type="xs:byte" name="width"/>
+                                                        </xs:extension>
+                                                      </xs:simpleContent>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute type="xs:string" name="class"/>
+                                                <xs:attribute type="xs:string" name="href"/>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="nav" minOccurs="0">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="ul">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="li" maxOccurs="unbounded" minOccurs="0">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element name="a">
+                                                                <xs:complexType>
+                                                                  <xs:simpleContent>
+                                                                    <xs:extension base="xs:string">
+                                                                      <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                                      <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                    </xs:extension>
+                                                                  </xs:simpleContent>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                            <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                      <xs:attribute type="xs:string" name="class"/>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute type="xs:string" name="class"/>
+                                              </xs:complexType>
+                                            </xs:element>
+                                            <xs:element name="div" minOccurs="0">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="div">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="div">
+                                                          <xs:complexType>
+                                                            <xs:sequence>
+                                                              <xs:element type="xs:string" name="div"/>
+                                                              <xs:element name="label">
+                                                                <xs:complexType>
+                                                                  <xs:sequence>
+                                                                    <xs:element name="a">
+                                                                      <xs:complexType>
+                                                                        <xs:simpleContent>
+                                                                          <xs:extension base="xs:string">
+                                                                            <xs:attribute type="xs:string" name="href"/>
+                                                                            <xs:attribute type="xs:string" name="class"/>
+                                                                          </xs:extension>
+                                                                        </xs:simpleContent>
+                                                                      </xs:complexType>
+                                                                    </xs:element>
+                                                                  </xs:sequence>
+                                                                  <xs:attribute type="xs:string" name="class"/>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:sequence>
+                                                            <xs:attribute type="xs:string" name="class"/>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                      <xs:attribute type="xs:string" name="class"/>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                  <xs:element name="span">
+                                                    <xs:complexType>
+                                                      <xs:sequence>
+                                                        <xs:element name="div">
+                                                          <xs:complexType>
+                                                            <xs:choice maxOccurs="unbounded" minOccurs="0">
+                                                              <xs:element name="a">
+                                                                <xs:complexType>
+                                                                  <xs:simpleContent>
+                                                                    <xs:extension base="xs:string">
+                                                                      <xs:attribute type="xs:string" name="class"/>
+                                                                      <xs:attribute type="xs:string" name="href"/>
+                                                                    </xs:extension>
+                                                                  </xs:simpleContent>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                              <xs:element name="span">
+                                                                <xs:complexType>
+                                                                  <xs:simpleContent>
+                                                                    <xs:extension base="xs:string">
+                                                                      <xs:attribute type="xs:string" name="class" use="optional"/>
+                                                                      <xs:attribute type="xs:string" name="href" use="optional"/>
+                                                                    </xs:extension>
+                                                                  </xs:simpleContent>
+                                                                </xs:complexType>
+                                                              </xs:element>
+                                                            </xs:choice>
+                                                            <xs:attribute type="xs:string" name="class"/>
+                                                          </xs:complexType>
+                                                        </xs:element>
+                                                      </xs:sequence>
+                                                      <xs:attribute type="xs:string" name="class"/>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute type="xs:string" name="class"/>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute type="xs:string" name="class" use="optional"/>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="class"/>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="class"/>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="svg" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="class" use="optional"/>
+                                  <xs:attribute type="xs:byte" name="height" use="optional"/>
+                                  <xs:attribute type="xs:byte" name="width" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="span" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType mixed="true">
+                              <xs:sequence>
+                                <xs:element name="a">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute type="xs:string" name="href" use="optional"/>
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="class" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:string" name="class" use="optional"/>
+                        <xs:attribute type="xs:string" name="id" use="optional"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

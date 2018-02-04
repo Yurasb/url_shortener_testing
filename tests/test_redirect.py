@@ -3,6 +3,9 @@ import uuid
 from cerberus import Validator
 from requests import request
 
+from data import get_xmlschema
+from tests import parse_html
+
 
 def test_redirect_status_code(purge_all_links, create_shortcut_link):
     # precondition
@@ -45,8 +48,10 @@ def test_redirect_body(purge_all_links, create_shortcut_link):
             create_shortcut_link.json()['id']
         )
     )
-    # validation - to be completed using XML-schema
-    assert response.content
+    # validation
+    parsed_body = parse_html(response.text)
+    xmlschema = get_xmlschema()
+    xmlschema.assertValid(parsed_body)
 
 
 def test_redirect_wrong_method_status_code(purge_all_links, create_shortcut_link):
