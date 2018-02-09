@@ -1,7 +1,7 @@
 import uuid
+import requests
 
 from cerberus import Validator
-from requests import request
 
 from data import get_xmlschema
 from tests import parse_html
@@ -12,8 +12,7 @@ def test_redirect_status_code(purge_all_links, create_shortcut_link):
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         )
@@ -27,8 +26,7 @@ def test_redirect_is_redirect(purge_all_links, create_shortcut_link):
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         )
@@ -42,8 +40,7 @@ def test_redirect_body(purge_all_links, create_shortcut_link):
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         )
@@ -59,8 +56,7 @@ def test_redirect_wrong_method_status_code(purge_all_links, create_shortcut_link
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         ),
@@ -75,8 +71,7 @@ def test_redirect_wrong_method_body(purge_all_links, create_shortcut_link):
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         ),
@@ -89,15 +84,14 @@ def test_redirect_wrong_method_body(purge_all_links, create_shortcut_link):
             'message': {'type': 'string', 'allowed': ['Method Not Allowed']}
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_redirect_invalid_id_status_code(purge_all_links):
     # precondition
     purge_all_links
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/r/{}'.format(uuid.uuid4())
     )
     # validation
@@ -108,8 +102,7 @@ def test_redirect_invalid_id_body(purge_all_links):
     # precondition
     purge_all_links
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/r/{}'.format(uuid.uuid4())
     )
     # validation
@@ -119,4 +112,4 @@ def test_redirect_invalid_id_body(purge_all_links):
             'message': {'type': 'string', 'allowed': ['Not Found']}
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors

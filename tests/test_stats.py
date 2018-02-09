@@ -1,8 +1,8 @@
 import json
 import uuid
+import requests
 
 from cerberus import Validator
-from requests import request
 
 
 def test_stats_status_code(
@@ -13,8 +13,7 @@ def test_stats_status_code(
     create_shortcut_link
     redirect_by_id
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': create_shortcut_link.json()['id']})
     )
@@ -27,8 +26,7 @@ def test_stats_new_body(purge_all_links, create_shortcut_link):
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': create_shortcut_link.json()['id']})
     )
@@ -39,7 +37,7 @@ def test_stats_new_body(purge_all_links, create_shortcut_link):
             'redirects_count': {'type': 'integer', 'allowed': [0]}
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_stats_redirected_body(
@@ -50,8 +48,7 @@ def test_stats_redirected_body(
     create_shortcut_link
     redirect_by_id
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': create_shortcut_link.json()['id']})
     )
@@ -62,7 +59,7 @@ def test_stats_redirected_body(
             'redirects_count': {'type': 'integer', 'allowed': [1]}
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_stats_invalid_json_status_code(
@@ -72,8 +69,7 @@ def test_stats_invalid_json_status_code(
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps(create_shortcut_link.json()['id'])
     )
@@ -88,8 +84,7 @@ def test_stats_invalid_json_body(
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps(create_shortcut_link.json()['id'])
     )
@@ -101,8 +96,7 @@ def test_stats_invalid_id_status_code(purge_all_links):
     # precondition
     purge_all_links
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': str(uuid.uuid4())})
     )
@@ -114,8 +108,7 @@ def test_stats_invalid_id_body(purge_all_links):
     # precondition
     purge_all_links
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': str(uuid.uuid4())})
     )
@@ -126,13 +119,12 @@ def test_stats_invalid_id_body(purge_all_links):
             'message': {'type': 'string', 'allowed': ['Not Found']}
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_stats_wrong_method_status_code():
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/stats',
     )
     # validation
@@ -141,8 +133,7 @@ def test_stats_wrong_method_status_code():
 
 def test_stats_wrong_method_body():
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/stats',
     )
     # validation
@@ -154,4 +145,4 @@ def test_stats_wrong_method_body():
             }
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors

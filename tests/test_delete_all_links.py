@@ -1,13 +1,12 @@
+import requests
 from cerberus import Validator
-from requests import request
 
 
 def test_delete_all_links_status_code(create_shortcut_link):
     # precondition
     create_shortcut_link
     # action
-    response = request(
-        method='DELETE',
+    response = requests.delete(
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
@@ -19,24 +18,21 @@ def test_delete_all_links_removed(create_shortcut_link):
     # precondition
     create_shortcut_link
     # action
-    request(
-        method='DELETE',
+    requests.delete(
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
     # validation
-    check = request(
-        method='GET',
+    check = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
     v = Validator({'links': {}})
-    assert v.validate(check.json())
+    assert v.validate(check.json()), v.errors
 
 
 def test_delete_all_links_wrong_method_status_code():
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
@@ -46,8 +42,7 @@ def test_delete_all_links_wrong_method_status_code():
 
 def test_delete_all_links_wrong_method_body():
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
@@ -60,13 +55,12 @@ def test_delete_all_links_wrong_method_body():
             }
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_delete_all_links_no_confirmation_status_code():
     # action
-    response = request(
-        method='DELETE',
+    response = requests.delete(
         url='http://localhost:8888/admin/all_links'
     )
     # validation
@@ -75,8 +69,7 @@ def test_delete_all_links_no_confirmation_status_code():
 
 def test_delete_all_links_no_confirmation_body():
     # action
-    response = request(
-        method='DELETE',
+    response = requests.delete(
         url='http://localhost:8888/admin/all_links'
     )
     # validation - to be completed with XML-schema

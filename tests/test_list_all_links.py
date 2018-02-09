@@ -1,13 +1,13 @@
+import requests
+
 from cerberus import Validator
-from requests import request
 
 
 def test_list_all_links_empty_status_code(purge_all_links):
     # precondition
     purge_all_links
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
     # validation
@@ -18,13 +18,12 @@ def test_list_all_links_empty_body(purge_all_links):
     # precondition
     purge_all_links
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
     # validation
     v = Validator({'links': {}})
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_list_all_links_not_empty_status_code(
@@ -34,8 +33,7 @@ def test_list_all_links_not_empty_status_code(
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
     # validation
@@ -49,8 +47,7 @@ def test_list_all_links_not_empty_body(
     purge_all_links
     create_shortcut_link
     # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
     # validation
@@ -66,13 +63,12 @@ def test_list_all_links_not_empty_body(
             }
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_list_all_links_wrong_method_status_code():
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/admin/all_links',
         data='{}'
     )
@@ -82,8 +78,7 @@ def test_list_all_links_wrong_method_status_code():
 
 def test_all_links_wrong_method_body():
     # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/admin/all_links',
         data='{}'
     )
@@ -96,4 +91,4 @@ def test_all_links_wrong_method_body():
             }
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors

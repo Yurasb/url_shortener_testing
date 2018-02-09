@@ -4,8 +4,7 @@ import requests
 
 @pytest.fixture()
 def purge_all_links(request):
-    requests.request(
-        method='DELETE',
+    requests.delete(
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
@@ -13,8 +12,7 @@ def purge_all_links(request):
 
 @pytest.fixture()
 def create_shortcut_link(request):
-    create = requests.request(
-        method='POST',
+    create = requests.post(
         url='http://localhost:8888/shortcut',
         data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
     )
@@ -23,8 +21,7 @@ def create_shortcut_link(request):
 
 @pytest.fixture()
 def redirect_by_id(request, create_shortcut_link):
-    requests.request(
-        method='GET',
+    requests.get(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         )
