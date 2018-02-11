@@ -1,28 +1,23 @@
+from lxml import html
+
 import requests
 from cerberus import Validator
 
 
 def test_delete_all_links_status_code(create_shortcut_link):
-    # precondition
-    create_shortcut_link
-    # action
     response = requests.delete(
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
-    # validation
     assert response.status_code == 200
 
 
 def test_delete_all_links_removed(create_shortcut_link):
-    # precondition
-    create_shortcut_link
-    # action
     requests.delete(
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
-    # validation
+
     check = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
@@ -31,22 +26,19 @@ def test_delete_all_links_removed(create_shortcut_link):
 
 
 def test_delete_all_links_wrong_method_status_code():
-    # action
     response = requests.post(
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
-    # validation
     assert response.status_code == 405
 
 
 def test_delete_all_links_wrong_method_body():
-    # action
     response = requests.post(
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
-    # validation
+
     v = Validator(
         {
             'status': {'type': 'integer', 'allowed': [405]},
@@ -59,18 +51,16 @@ def test_delete_all_links_wrong_method_body():
 
 
 def test_delete_all_links_no_confirmation_status_code():
-    # action
     response = requests.delete(
         url='http://localhost:8888/admin/all_links'
     )
-    # validation
     assert response.status_code == 500
 
 
 def test_delete_all_links_no_confirmation_body():
-    # action
     response = requests.delete(
         url='http://localhost:8888/admin/all_links'
     )
-    # validation - to be completed with XML-schema
-    assert response.content
+
+    parsed = html.fromstring(response.text)
+    assert parsed.text_content()[:25] == '500 Internal Server Error'
