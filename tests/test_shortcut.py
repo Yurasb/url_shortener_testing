@@ -1,40 +1,26 @@
 import json
+from lxml import html
+
+import requests
 
 from cerberus import Validator
-from requests import request
 
 
-def test_shortcut_status_code():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    response = request(
-        method='POST',
+def test_shortcut_status_code(purge_all_links):
+    response = requests.post(
         url='http://localhost:8888/shortcut',
         data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
     )
-    # validation
+
     assert response.status_code == 200
 
 
-def test_shortcut_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    response = request(
-        method='POST',
+def test_shortcut_body(purge_all_links):
+    response = requests.post(
         url='http://localhost:8888/shortcut',
         data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
     )
-    # validation
+
     v = Validator(
         {
             'id': {
@@ -42,114 +28,65 @@ def test_shortcut_body():
             }
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
-def test_shortcut_created():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    request(
-        method='POST',
+def test_shortcut_created(purge_all_links):
+    requests.post(
         url='http://localhost:8888/shortcut',
         data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
     )
-    # validation
-    check = request(
-        method='GET',
+
+    check = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
-    assert "https://github.com/Yurasb/url_shortener_testing" in json.dumps(check.json())
+    assert "https://github.com/Yurasb/url_shortener_testing" \
+           in json.dumps(check.json())
 
 
 def test_shortcut_wrong_method_status_code():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/shortcut'
     )
-    # validation
     assert response.status_code == 405
 
 
 def test_shortcut_wrong_method_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/shortcut'
     )
-    # validation
+
     v = Validator(
         {
             'status': {'type': 'integer', 'allowed': [405]},
             'message': {'type': 'string', 'allowed': ['Method Not Allowed']}
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_shortcut_invalid_json_status_code():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/shortcut',
         data='{ "link" "https://github.com/Yurasb/url_shortener_testing"}'
     )
-    # validation
+
     assert response.status_code == 500
 
 
 def test_shortcut_invalid_json_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/shortcut',
         data='{ "link" "https://github.com/Yurasb/url_shortener_testing"}'
     )
-    # validation - to be completed with XML-schema
-    assert response.content
+
+    parsed = html.fromstring(response.text)
+    assert parsed.text_content()[:25] == '500 Internal Server Error'
 
 
 def test_shortcut_invalid_link():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/shortcut',
-        data='{ "link": "github.com/Yurasb/url_shortener_testing"}'
+        data='{"link": "github.com/Yurasb/url_shortener_testing"}'
     )
-    # validation
     assert response.status_code == 400
