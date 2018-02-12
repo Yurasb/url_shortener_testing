@@ -12,7 +12,6 @@ def test_shortcut_status_code(purge_all_links):
         url='http://localhost:8888/shortcut',
         data=json.dumps({'link': URL})
     )
-
     assert response.status_code == 200
 
 
@@ -70,7 +69,6 @@ def test_shortcut_invalid_json_status_code():
         url='http://localhost:8888/shortcut',
         data='{ "link" "https://github.com/Yurasb/url_shortener_testing"}'
     )
-
     assert response.status_code == 500
 
 

@@ -8,7 +8,8 @@ def test_redirect_status_code(purge_all_links, create_shortcut_link):
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         ),
-        allow_redirects=False)
+        allow_redirects=False
+    )
     assert response.status_code == 302
 
 
