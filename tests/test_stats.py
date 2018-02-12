@@ -1,10 +1,8 @@
 import json
 import uuid
-from lxml import html
-
 import requests
-
 from cerberus import Validator
+from lxml import html
 
 
 def test_stats_status_code(

@@ -1,6 +1,5 @@
 import uuid
 import requests
-
 from cerberus import Validator
 
 

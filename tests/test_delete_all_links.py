@@ -1,7 +1,6 @@
-from lxml import html
-
 import requests
 from cerberus import Validator
+from lxml import html
 
 
 def test_delete_all_links_status_code(create_shortcut_link):

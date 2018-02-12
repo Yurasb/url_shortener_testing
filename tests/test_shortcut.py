@@ -1,15 +1,16 @@
 import json
+import requests
+from cerberus import Validator
 from lxml import html
 
-import requests
 
-from cerberus import Validator
+URL = 'https://github.com/Yurasb/url_shortener_testing'
 
 
 def test_shortcut_status_code(purge_all_links):
     response = requests.post(
         url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
+        data=json.dumps({'link': URL})
     )
 
     assert response.status_code == 200
@@ -18,7 +19,7 @@ def test_shortcut_status_code(purge_all_links):
 def test_shortcut_body(purge_all_links):
     response = requests.post(
         url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
+        data=json.dumps({'link': URL})
     )
 
     v = Validator(
@@ -34,14 +35,13 @@ def test_shortcut_body(purge_all_links):
 def test_shortcut_created(purge_all_links):
     requests.post(
         url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
+        data=json.dumps({'link': URL})
     )
 
     check = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
-    assert "https://github.com/Yurasb/url_shortener_testing" \
-           in json.dumps(check.json())
+    assert URL in json.dumps(check.json())
 
 
 def test_shortcut_wrong_method_status_code():

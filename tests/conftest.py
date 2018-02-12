@@ -2,7 +2,7 @@ import pytest
 import requests
 
 
-@pytest.fixture()
+@pytest.fixture
 def purge_all_links(request):
     requests.delete(
         url='http://localhost:8888/admin/all_links',
@@ -10,7 +10,7 @@ def purge_all_links(request):
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def create_shortcut_link(request):
     create = requests.post(
         url='http://localhost:8888/shortcut',
@@ -19,7 +19,7 @@ def create_shortcut_link(request):
     return create
 
 
-@pytest.fixture()
+@pytest.fixture
 def redirect_by_id(request, create_shortcut_link):
     requests.get(
         url='http://localhost:8888/r/{}'.format(
