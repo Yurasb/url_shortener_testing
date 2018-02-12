@@ -1,201 +1,115 @@
 import json
 import uuid
-
+import requests
 from cerberus import Validator
-from requests import request
+from lxml import html
 
 
-def test_stats_status_code():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
-    request(
-        method='GET',
-        url='http://localhost:8888/r/{}'.format(create.json()['id'])
-    )
-    # action
-    response = request(
-        method='POST',
+def test_stats_status_code(
+        purge_all_links, create_shortcut_link, redirect_by_id
+):
+    response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps({'id': create.json()['id']})
+        data=json.dumps({'id': create_shortcut_link.json()['id']})
     )
-    # validation
     assert response.status_code == 200
 
 
-def test_stats_new_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
-    # action
-    response = request(
-        method='POST',
+def test_stats_new_body(purge_all_links, create_shortcut_link):
+    response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps({'id': create.json()['id']})
+        data=json.dumps({'id': create_shortcut_link.json()['id']})
     )
-    # validation
+
     v = Validator(
         {
             'last_redirected': {'nullable': True, 'type': 'float'},
             'redirects_count': {'type': 'integer', 'allowed': [0]}
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
-def test_stats_redirected_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
-    request(
-        method='GET',
-        url='http://localhost:8888/r/{}'.format(create.json()['id'])
-    )
-    # action
-    response = request(
-        method='POST',
+def test_stats_redirected_body(
+        purge_all_links, create_shortcut_link, redirect_by_id
+):
+    response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps({'id': create.json()['id']})
+        data=json.dumps({'id': create_shortcut_link.json()['id']})
     )
-    # validation
+
     v = Validator(
         {
             'last_redirected': {'nullable': False, 'type': 'float'},
             'redirects_count': {'type': 'integer', 'allowed': [1]}
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
-def test_stats_invalid_json_status_code():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
-    # action
-    response = request(
-        method='POST',
+def test_stats_invalid_json_status_code(
+        purge_all_links, create_shortcut_link
+):
+    response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps(create.json()['id'])
+        data=json.dumps(create_shortcut_link.json()['id'])
     )
-    # validation
     assert response.status_code == 500
 
 
-def test_stats_invalid_json_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    create = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
-    # action
-    response = request(
-        method='POST',
+def test_stats_invalid_json_body(
+        purge_all_links, create_shortcut_link
+):
+    response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps(create.json()['id'])
+        data=json.dumps(create_shortcut_link.json()['id'])
     )
-    # validation - to be completed with XML-schema
-    assert response.content
+
+    parsed = html.fromstring(response.text)
+    assert parsed.text_content()[:25] == '500 Internal Server Error'
 
 
-def test_stats_invalid_id_status_code():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    response = request(
-        method='POST',
+def test_stats_invalid_id_status_code(purge_all_links):
+    response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': str(uuid.uuid4())})
     )
-    # validation
     assert response.status_code == 404
 
 
-def test_stats_invalid_id_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    # action
-    response = request(
-        method='POST',
+def test_stats_invalid_id_body(purge_all_links):
+    response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': str(uuid.uuid4())})
     )
-    # validation
+
     v = Validator(
         {
             'status': {'type': 'integer', 'allowed': [404]},
             'message': {'type': 'string', 'allowed': ['Not Found']}
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_stats_wrong_method_status_code():
-    # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/stats',
     )
-    # validation
     assert response.status_code == 405
 
 
 def test_stats_wrong_method_body():
-    # action
-    response = request(
-        method='GET',
+    response = requests.get(
         url='http://localhost:8888/stats',
     )
-    # validation
+
     v = Validator(
         {
             'status': {'type': 'integer', 'allowed': [405]},
-            'message': {'type': 'string', 'allowed': ['Method Not Allowed']}
+            'message': {
+                'type': 'string', 'allowed': ['Method Not Allowed']
+            }
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors

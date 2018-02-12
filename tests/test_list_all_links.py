@@ -1,51 +1,44 @@
+import requests
 from cerberus import Validator
-from requests import request
 
 
-def test_list_all_links_status_code():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
-    # action
-    response = request(
-        method='GET',
+def test_list_all_links_empty_status_code(purge_all_links):
+    response = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
-    # validation
     assert response.status_code == 200
 
 
-def test_list_all_links_body():
-    # precondition
-    request(
-        method='DELETE',
-        url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
-    )
-    shortcut = request(
-        method='POST',
-        url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
-    )
-    # action
-    response = request(
-        method='GET',
+def test_list_all_links_empty_body(purge_all_links):
+    response = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
-    # validation
+
+    v = Validator({'links': {}})
+    assert v.validate(response.json()), v.errors
+
+
+def test_list_all_links_not_empty_status_code(
+        purge_all_links, create_shortcut_link
+):
+    response = requests.get(
+        url='http://localhost:8888/admin/all_links'
+    )
+    assert response.status_code == 200
+
+
+def test_list_all_links_not_empty_body(
+        purge_all_links, create_shortcut_link
+):
+    response = requests.get(
+        url='http://localhost:8888/admin/all_links'
+    )
+
     v = Validator(
         {
             'links': {
                 'type': 'dict', 'schema': {
-                    str(shortcut.json()['id']): {
+                    str(create_shortcut_link.json()['id']): {
                         'type': 'string',
                         'allowed': ['https://github.com/Yurasb/url_shortener_testing']
                     }
@@ -53,32 +46,29 @@ def test_list_all_links_body():
             }
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
 
 
 def test_list_all_links_wrong_method_status_code():
-    # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/admin/all_links',
         data='{}'
     )
-    # validation
     assert response.status_code == 405
 
 
 def test_all_links_wrong_method_body():
-    # action
-    response = request(
-        method='POST',
+    response = requests.post(
         url='http://localhost:8888/admin/all_links',
         data='{}'
     )
-    # validation
+
     v = Validator(
         {
             'status': {'type': 'integer', 'allowed': [405]},
-            'message': {'type': 'string', 'allowed': ['Method Not Allowed']}
+            'message': {
+                'type': 'string', 'allowed': ['Method Not Allowed']
+            }
         }
     )
-    assert v.validate(response.json())
+    assert v.validate(response.json()), v.errors
