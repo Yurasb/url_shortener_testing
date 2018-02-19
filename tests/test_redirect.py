@@ -16,7 +16,7 @@ def test_redirect_status_code(
         allow_redirects=False
     )
     assert response.status_code == 302, (
-        'Expected status code is 302, got ${actual}'.format(
+        'Expected status code is 302, got {actual}'.format(
             actual=response.status_code
         )
     )
