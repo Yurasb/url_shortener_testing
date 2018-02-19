@@ -8,7 +8,11 @@ def test_delete_all_links_status_code(create_shortcut_link):
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
-    assert response.status_code == 200
+    assert response.status_code == 200, (
+        'Expected status code is 200, got ${actual}'.format(
+            actual=response.status_code
+        )
+    )
 
 
 def test_delete_all_links_removed(create_shortcut_link):
@@ -29,7 +33,11 @@ def test_delete_all_links_wrong_method_status_code():
         url='http://localhost:8888/admin/all_links',
         data='{"Are you sure?":"Yes"}'
     )
-    assert response.status_code == 405
+    assert response.status_code == 405, (
+        'Expected status code is 405, got ${actual}'.format(
+            actual=response.status_code
+        )
+    )
 
 
 def test_delete_all_links_wrong_method_body():
@@ -53,7 +61,11 @@ def test_delete_all_links_no_confirmation_status_code():
     response = requests.delete(
         url='http://localhost:8888/admin/all_links'
     )
-    assert response.status_code == 500
+    assert response.status_code == 500, (
+        'Expected status code is 500, got ${actual}'.format(
+            actual=response.status_code
+        )
+    )
 
 
 def test_delete_all_links_no_confirmation_body():
@@ -62,4 +74,8 @@ def test_delete_all_links_no_confirmation_body():
     )
 
     parsed = html.fromstring(response.text)
-    assert parsed.text_content()[:25] == '500 Internal Server Error'
+    assert parsed.text_content()[:25] == '500 Internal Server Error', (
+        'Expected title is "500 Internal Server Error", but got {actual}'.format(
+            actual=parsed.text_content()[:25]
+        )
+    )

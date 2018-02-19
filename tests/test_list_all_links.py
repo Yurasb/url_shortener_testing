@@ -6,7 +6,11 @@ def test_list_all_links_empty_status_code(purge_all_links):
     response = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
-    assert response.status_code == 200
+    assert response.status_code == 200, (
+        'Expected status code 200, but got ${actual}'.format(
+            actual=response.status_code
+        )
+    )
 
 
 def test_list_all_links_empty_body(purge_all_links):
@@ -24,7 +28,11 @@ def test_list_all_links_not_empty_status_code(
     response = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
-    assert response.status_code == 200
+    assert response.status_code == 200, (
+        'Expected status code is 200, got ${actual}'.format(
+            actual=response.status_code
+        )
+    )
 
 
 def test_list_all_links_not_empty_body(
@@ -54,7 +62,11 @@ def test_list_all_links_wrong_method_status_code():
         url='http://localhost:8888/admin/all_links',
         data='{}'
     )
-    assert response.status_code == 405
+    assert response.status_code == 405, (
+        'Expected status code is 405, got ${actual}'.format(
+            actual=response.status_code
+        )
+    )
 
 
 def test_all_links_wrong_method_body():
