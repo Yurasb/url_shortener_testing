@@ -1,10 +1,13 @@
 import json
 import uuid
 import requests
+import allure
 from cerberus import Validator
 from lxml import html
 
 
+@allure.feature('Stats service')
+@allure.story('Valid request status code')
 def test_stats_status_code(
         purge_all_links, create_shortcut_link, redirect_by_id
 ):
@@ -19,6 +22,8 @@ def test_stats_status_code(
     )
 
 
+@allure.feature('Stats service')
+@allure.story('Valid request not-redirected link response body')
 def test_stats_new_body(purge_all_links, create_shortcut_link):
     response = requests.post(
         url='http://localhost:8888/stats',
@@ -34,6 +39,8 @@ def test_stats_new_body(purge_all_links, create_shortcut_link):
     assert v.validate(response.json()), v.errors
 
 
+@allure.feature('Stats service')
+@allure.story('Valid request redirected link response body')
 def test_stats_redirected_body(
         purge_all_links, create_shortcut_link, redirect_by_id
 ):
@@ -51,6 +58,8 @@ def test_stats_redirected_body(
     assert v.validate(response.json()), v.errors
 
 
+@allure.feature('Stats service')
+@allure.story('Invalid JSON data status code')
 def test_stats_invalid_json_status_code(
         purge_all_links, create_shortcut_link
 ):
@@ -65,6 +74,8 @@ def test_stats_invalid_json_status_code(
     )
 
 
+@allure.feature('Stats service')
+@allure.story('Invalid JSON data response body')
 def test_stats_invalid_json_body(
         purge_all_links, create_shortcut_link
 ):
@@ -81,6 +92,8 @@ def test_stats_invalid_json_body(
     )
 
 
+@allure.feature('Stats service')
+@allure.story('Invalid link ID status code')
 def test_stats_invalid_id_status_code(purge_all_links):
     response = requests.post(
         url='http://localhost:8888/stats',
@@ -93,6 +106,8 @@ def test_stats_invalid_id_status_code(purge_all_links):
     )
 
 
+@allure.feature('Stats service')
+@allure.story('Invalid link ID response body')
 def test_stats_invalid_id_body(purge_all_links):
     response = requests.post(
         url='http://localhost:8888/stats',
@@ -108,6 +123,8 @@ def test_stats_invalid_id_body(purge_all_links):
     assert v.validate(response.json()), v.errors
 
 
+@allure.feature('Stats service')
+@allure.story('Invalid method status code')
 def test_stats_wrong_method_status_code():
     response = requests.get(
         url='http://localhost:8888/stats',
@@ -119,6 +136,8 @@ def test_stats_wrong_method_status_code():
     )
 
 
+@allure.feature('Stats service')
+@allure.story('Invalid method response body')
 def test_stats_wrong_method_body():
     response = requests.get(
         url='http://localhost:8888/stats',

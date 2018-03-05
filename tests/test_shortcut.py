@@ -1,5 +1,6 @@
 import json
 import requests
+import allure
 from cerberus import Validator
 from lxml import html
 
@@ -7,6 +8,8 @@ from lxml import html
 URL = 'https://github.com/Yurasb/url_shortener_testing'
 
 
+@allure.feature('Shortcut service')
+@allure.story('Valid request status code')
 def test_shortcut_status_code(purge_all_links):
     response = requests.post(
         url='http://localhost:8888/shortcut',
@@ -19,6 +22,8 @@ def test_shortcut_status_code(purge_all_links):
     )
 
 
+@allure.feature('Shortcut service')
+@allure.story('Valid request response body')
 def test_shortcut_body(purge_all_links):
     response = requests.post(
         url='http://localhost:8888/shortcut',
@@ -31,6 +36,8 @@ def test_shortcut_body(purge_all_links):
     assert v.validate(response.json()), v.errors
 
 
+@allure.feature('Shortcut service')
+@allure.story('Check if shortcut is created')
 def test_shortcut_created(purge_all_links):
     requests.post(
         url='http://localhost:8888/shortcut',
@@ -45,6 +52,8 @@ def test_shortcut_created(purge_all_links):
     )
 
 
+@allure.feature('Shortcut service')
+@allure.story('Invalid method status code')
 def test_shortcut_wrong_method_status_code():
     response = requests.get(
         url='http://localhost:8888/shortcut'
@@ -56,6 +65,8 @@ def test_shortcut_wrong_method_status_code():
     )
 
 
+@allure.feature('Shortcut service')
+@allure.story('Invalid method response body')
 def test_shortcut_wrong_method_body():
     response = requests.get(
         url='http://localhost:8888/shortcut'
@@ -70,6 +81,8 @@ def test_shortcut_wrong_method_body():
     assert v.validate(response.json()), v.errors
 
 
+@allure.feature('Shortcut service')
+@allure.story('Invalid JSON data status code')
 def test_shortcut_invalid_json_status_code():
     response = requests.post(
         url='http://localhost:8888/shortcut',
@@ -82,6 +95,8 @@ def test_shortcut_invalid_json_status_code():
     )
 
 
+@allure.feature('Shortcut service')
+@allure.story('Invalid JSON data response body')
 def test_shortcut_invalid_json_body():
     response = requests.post(
         url='http://localhost:8888/shortcut',
@@ -96,6 +111,8 @@ def test_shortcut_invalid_json_body():
     )
 
 
+@allure.feature('Shortcut service')
+@allure.story('Invalid URL status code')
 def test_shortcut_invalid_link():
     response = requests.post(
         url='http://localhost:8888/shortcut',

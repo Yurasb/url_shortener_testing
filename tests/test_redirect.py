@@ -1,11 +1,14 @@
 import uuid
 import requests
+import allure
 from cerberus import Validator
 
 
 URL = 'https://github.com/Yurasb/url_shortener_testing'
 
 
+@allure.feature('Redirect service')
+@allure.story('Valid request status code')
 def test_redirect_status_code(
         purge_all_links, create_shortcut_link
 ):
@@ -22,6 +25,8 @@ def test_redirect_status_code(
     )
 
 
+@allure.feature('Redirect service')
+@allure.story('Valid request is redirected')
 def test_redirect_is_redirect(
         purge_all_links, create_shortcut_link
 ):
@@ -34,6 +39,8 @@ def test_redirect_is_redirect(
     assert response.is_redirect
 
 
+@allure.feature('Redirect service')
+@allure.story('Valid request redirect location')
 def test_redirect_location(
         purge_all_links, create_shortcut_link
 ):
@@ -50,6 +57,8 @@ def test_redirect_location(
     )
 
 
+@allure.feature('Redirect service')
+@allure.story('Valid request response body')
 def test_redirect_body(
         purge_all_links, create_shortcut_link
 ):
@@ -66,6 +75,8 @@ def test_redirect_body(
     )
 
 
+@allure.feature('Redirect service')
+@allure.story('Invalid method status code')
 def test_redirect_wrong_method_status_code(
         purge_all_links, create_shortcut_link
 ):
@@ -82,6 +93,8 @@ def test_redirect_wrong_method_status_code(
     )
 
 
+@allure.feature('Redirect service')
+@allure.story('Invalid method response body')
 def test_redirect_wrong_method_body(
         purge_all_links, create_shortcut_link
 ):
@@ -101,6 +114,8 @@ def test_redirect_wrong_method_body(
     assert v.validate(response.json()), v.errors
 
 
+@allure.feature('Redirect service')
+@allure.story('Invalid link ID status code')
 def test_redirect_invalid_id_status_code(purge_all_links):
     response = requests.get(
         url='http://localhost:8888/r/{}'.format(uuid.uuid4())
@@ -112,6 +127,8 @@ def test_redirect_invalid_id_status_code(purge_all_links):
     )
 
 
+@allure.feature('Redirect service')
+@allure.story('Invalid link ID response body')
 def test_redirect_invalid_id_body(purge_all_links):
     response = requests.get(
         url='http://localhost:8888/r/{}'.format(uuid.uuid4())
