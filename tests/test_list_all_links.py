@@ -3,7 +3,7 @@ import requests
 from cerberus import Validator
 
 
-@allure.feature('List all links service')
+@allure.feature('List all links handler')
 @allure.story('Valid request with empty list status code')
 def test_list_all_links_empty_status_code(purge_all_links):
     response = requests.get(
@@ -16,7 +16,7 @@ def test_list_all_links_empty_status_code(purge_all_links):
     )
 
 
-@allure.feature('List all links service')
+@allure.feature('List all links handler')
 @allure.story('Valid request with empty list response body')
 def test_list_all_links_empty_body(purge_all_links):
     response = requests.get(
@@ -27,7 +27,7 @@ def test_list_all_links_empty_body(purge_all_links):
     assert v.validate(response.json()), v.errors
 
 
-@allure.feature('List all links service')
+@allure.feature('List all links handler')
 @allure.story('Valid request with not empty list status code')
 def test_list_all_links_not_empty_status_code(
         purge_all_links, create_shortcut_link
@@ -42,7 +42,7 @@ def test_list_all_links_not_empty_status_code(
     )
 
 
-@allure.feature('List all links service')
+@allure.feature('List all links handler')
 @allure.story('Valid request with not empty list response body')
 def test_list_all_links_not_empty_body(
         purge_all_links, create_shortcut_link
@@ -66,7 +66,7 @@ def test_list_all_links_not_empty_body(
     assert v.validate(response.json()), v.errors
 
 
-@allure.feature('List all links service')
+@allure.feature('List all links handler')
 @allure.story('Invalid method status code')
 def test_list_all_links_wrong_method_status_code():
     response = requests.post(
@@ -80,7 +80,7 @@ def test_list_all_links_wrong_method_status_code():
     )
 
 
-@allure.feature('List all links service')
+@allure.feature('List all links handler')
 @allure.story('Invalid method response body')
 def test_all_links_wrong_method_body():
     response = requests.post(

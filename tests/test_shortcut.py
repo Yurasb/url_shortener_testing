@@ -8,7 +8,7 @@ from lxml import html
 URL = 'https://github.com/Yurasb/url_shortener_testing'
 
 
-@allure.feature('Shortcut service')
+@allure.feature('Shortcut handler')
 @allure.story('Valid request status code')
 def test_shortcut_status_code(purge_all_links):
     response = requests.post(
@@ -22,7 +22,7 @@ def test_shortcut_status_code(purge_all_links):
     )
 
 
-@allure.feature('Shortcut service')
+@allure.feature('Shortcut handler')
 @allure.story('Valid request response body')
 def test_shortcut_body(purge_all_links):
     response = requests.post(
@@ -36,7 +36,7 @@ def test_shortcut_body(purge_all_links):
     assert v.validate(response.json()), v.errors
 
 
-@allure.feature('Shortcut service')
+@allure.feature('Shortcut handler')
 @allure.story('Check if shortcut is created')
 def test_shortcut_created(purge_all_links):
     requests.post(
@@ -52,7 +52,7 @@ def test_shortcut_created(purge_all_links):
     )
 
 
-@allure.feature('Shortcut service')
+@allure.feature('Shortcut handler')
 @allure.story('Invalid method status code')
 def test_shortcut_wrong_method_status_code():
     response = requests.get(
@@ -65,7 +65,7 @@ def test_shortcut_wrong_method_status_code():
     )
 
 
-@allure.feature('Shortcut service')
+@allure.feature('Shortcut handler')
 @allure.story('Invalid method response body')
 def test_shortcut_wrong_method_body():
     response = requests.get(
@@ -81,7 +81,7 @@ def test_shortcut_wrong_method_body():
     assert v.validate(response.json()), v.errors
 
 
-@allure.feature('Shortcut service')
+@allure.feature('Shortcut handler')
 @allure.story('Invalid JSON data status code')
 def test_shortcut_invalid_json_status_code():
     response = requests.post(
@@ -95,7 +95,7 @@ def test_shortcut_invalid_json_status_code():
     )
 
 
-@allure.feature('Shortcut service')
+@allure.feature('Shortcut handler')
 @allure.story('Invalid JSON data response body')
 def test_shortcut_invalid_json_body():
     response = requests.post(
@@ -111,7 +111,7 @@ def test_shortcut_invalid_json_body():
     )
 
 
-@allure.feature('Shortcut service')
+@allure.feature('Shortcut handler')
 @allure.story('Invalid URL status code')
 def test_shortcut_invalid_link():
     response = requests.post(

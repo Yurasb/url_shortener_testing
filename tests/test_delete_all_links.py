@@ -4,7 +4,7 @@ from cerberus import Validator
 from lxml import html
 
 
-@allure.feature('Delete service')
+@allure.feature('Delete handler')
 @allure.story('Valid request status code')
 def test_delete_all_links_status_code(create_shortcut_link):
     response = requests.delete(
@@ -18,7 +18,7 @@ def test_delete_all_links_status_code(create_shortcut_link):
     )
 
 
-@allure.feature('Delete service')
+@allure.feature('Delete handler')
 @allure.story('Check if all links removed')
 def test_delete_all_links_removed(create_shortcut_link):
     requests.delete(
@@ -33,7 +33,7 @@ def test_delete_all_links_removed(create_shortcut_link):
     assert v.validate(check.json()), v.errors
 
 
-@allure.feature('Delete service')
+@allure.feature('Delete handler')
 @allure.story('Invalid method status code')
 def test_delete_all_links_wrong_method_status_code():
     response = requests.post(
@@ -47,7 +47,7 @@ def test_delete_all_links_wrong_method_status_code():
     )
 
 
-@allure.feature('Delete service')
+@allure.feature('Delete handler')
 @allure.story('Invalid method response body')
 def test_delete_all_links_wrong_method_body():
     response = requests.post(
@@ -66,7 +66,7 @@ def test_delete_all_links_wrong_method_body():
     assert v.validate(response.json()), v.errors
 
 
-@allure.feature('Delete service')
+@allure.feature('Delete handler')
 @allure.story('No confirmation status code')
 def test_delete_all_links_no_confirmation_status_code():
     response = requests.delete(
@@ -79,7 +79,7 @@ def test_delete_all_links_no_confirmation_status_code():
     )
 
 
-@allure.feature('Delete service')
+@allure.feature('Delete handler')
 @allure.story('No confirmation response body')
 def test_delete_all_links_no_confirmation_body():
     response = requests.delete(
