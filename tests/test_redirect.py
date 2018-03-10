@@ -1,6 +1,6 @@
 import uuid
-import requests
 import allure
+import requests
 from cerberus import Validator
 
 
