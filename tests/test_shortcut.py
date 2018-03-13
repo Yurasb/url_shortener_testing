@@ -88,8 +88,8 @@ def test_shortcut_invalid_json_status_code():
         url='http://localhost:8888/shortcut',
         data='{ "link" "https://github.com/Yurasb/url_shortener_testing"}'
     )
-    assert response.status_code == 500, (
-        'Expected status code is 500, got {actual}'.format(
+    assert response.status_code == 406, (
+        'Expected status code is 406, got {actual}'.format(
             actual=response.status_code
         )
     )
@@ -103,12 +103,13 @@ def test_shortcut_invalid_json_body():
         data='{ "link" "https://github.com/Yurasb/url_shortener_testing"}'
     )
 
-    parsed = html.fromstring(response.text)
-    assert parsed.text_content()[:25] == '500 Internal Server Error', (
-        'Expected title is "500 Internal Server Error", got {actual}'.format(
-            actual=parsed.text_content()[:25]
-        )
+    v = Validator(
+        {
+            'message': {'type': 'string','allowed': ['Invalid json']},
+            'status': {'type': 'integer','allowed': [406]}
+        }
     )
+    assert v.validate(response.json()), v.errors
 
 
 @allure.feature('Shortcut handler')
