@@ -6,7 +6,7 @@ import requests
 def purge_all_links(request):
     requests.delete(
         url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
+        data='{"confirm":"Yes"}'
     )
 
 
