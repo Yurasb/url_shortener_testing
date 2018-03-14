@@ -2,7 +2,6 @@ import json
 import allure
 import requests
 from cerberus import Validator
-from lxml import html
 
 
 URL = 'https://github.com/Yurasb/url_shortener_testing'

@@ -1,7 +1,6 @@
 import allure
 import requests
 from cerberus import Validator
-from lxml import html
 
 
 @allure.feature('Delete handler')
