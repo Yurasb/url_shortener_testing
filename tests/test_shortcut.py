@@ -1,7 +1,6 @@
 import json
 import allure
 import requests
-import websocket
 from cerberus import Validator
 
 URL = 'https://github.com/Yurasb/url_shortener_testing'
