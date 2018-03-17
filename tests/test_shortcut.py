@@ -37,7 +37,7 @@ def test_shortcut_body(purge_all_links):
 
 @allure.feature('Shortcut handler')
 @allure.story('Valid WebSocket query')
-def test_ws_shortcut_valid_query(create_shortcut_link, ws_connection):
+def test_ws_shortcut_valid_query(purge_all_links, ws_connection):
     ws_connection.send(json.dumps(
         {
             'command': 'shortcut',
@@ -48,6 +48,9 @@ def test_ws_shortcut_valid_query(create_shortcut_link, ws_connection):
     ))
     response = ws_connection.recv()
 
+    check = requests.get(
+        url='http://localhost:8888/admin/all_links'
+    )
     v = Validator(
         {
             'code': {
@@ -56,7 +59,7 @@ def test_ws_shortcut_valid_query(create_shortcut_link, ws_connection):
             'body': {
                 'type': 'dict', 'schema': {
                     'id': {
-                        'type': 'string', 'maxlength': 10
+                        'type': 'string', 'allowed': list(check.json()['links'].keys())
                     }
                 }
             }
@@ -143,7 +146,7 @@ def test_shortcut_invalid_json_body():
 
 @allure.feature('Shortcut handler')
 @allure.story('WebSocket query with invalid JSON data')
-def test_ws_shortcut_invalid_json(ws_connection):
+def test_ws_shortcut_invalid_json(purge_all_links, ws_connection):
     ws_connection.send(json.dumps(
         {
             'command': 'shortcut',
@@ -195,7 +198,6 @@ def test_ws_shortcut_invalid_link(ws_connection):
         }
     ))
     response = ws_connection.recv()
-    ws_connection.close()
 
     v = Validator(
         {
