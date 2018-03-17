@@ -1,8 +1,8 @@
 import json
 import allure
 import requests
+import websocket
 from cerberus import Validator
-
 
 URL = 'https://github.com/Yurasb/url_shortener_testing'
 
@@ -33,6 +33,36 @@ def test_shortcut_body(purge_all_links):
         {'id': {'type': 'string', 'allowed': [response.json()['id']]}}
     )
     assert v.validate(response.json()), v.errors
+
+
+@allure.feature('Shortcut handler')
+@allure.story('Valid WebSocket query')
+def test_ws_shortcut_valid_query(create_shortcut_link, ws_connection):
+    ws_connection.send(json.dumps(
+        {
+            'command': 'shortcut',
+            'body': {
+                'link': 'https://github.com/Yurasb/url_shortener_testing'
+            }
+        }
+    ))
+    response = ws_connection.recv()
+
+    v = Validator(
+        {
+            'code': {
+                'type': 'integer', 'allowed': [200]
+            },
+            'body': {
+                'type': 'dict', 'schema': {
+                    'id': {
+                        'type': 'string', 'maxlength': 10
+                    }
+                }
+            }
+        }
+    )
+    assert v.validate(json.loads(response)), v.errors
 
 
 @allure.feature('Shortcut handler')
@@ -104,11 +134,39 @@ def test_shortcut_invalid_json_body():
 
     v = Validator(
         {
-            'message': {'type': 'string','allowed': ['Invalid json']},
-            'status': {'type': 'integer','allowed': [406]}
+            'message': {'type': 'string', 'allowed': ['Invalid json']},
+            'status': {'type': 'integer', 'allowed': [406]}
         }
     )
     assert v.validate(response.json()), v.errors
+
+
+@allure.feature('Shortcut handler')
+@allure.story('WebSocket query with invalid JSON data')
+def test_ws_shortcut_invalid_json(ws_connection):
+    ws_connection.send(json.dumps(
+        {
+            'command': 'shortcut',
+            'body': 'https://github.com/Yurasb/url_shortener_testing'
+        }
+    ))
+    response = ws_connection.recv()
+
+    v = Validator(
+        {
+            'code': {
+                'type': 'integer', 'allowed': [400]
+            },
+            'error': {
+                'type': 'dict', 'schema': {
+                    'body': {
+                        'type': 'list', 'allowed': ['must be of dict type']
+                    }
+                }
+            }
+        }
+    )
+    assert v.validate(json.loads(response)), v.errors
 
 
 @allure.feature('Shortcut handler')
@@ -123,3 +181,42 @@ def test_shortcut_invalid_link():
             actual=response.status_code
         )
     )
+
+
+@allure.feature('Shortcut handler')
+@allure.story('WebSocket query with invalid link')
+def test_ws_shortcut_invalid_link(ws_connection):
+    ws_connection.send(json.dumps(
+        {
+            'command': 'shortcut',
+            'body': {
+                'link': 'github.com/Yurasb/url_shortener_testing'
+            }
+        }
+    ))
+    response = ws_connection.recv()
+    ws_connection.close()
+
+    v = Validator(
+        {
+            'code': {
+                'type': 'integer', 'allowed': [400]
+            },
+            'error': {
+                'type': 'dict', 'schema': {
+                    'link': {
+                        'type': 'list', 'allowed': [
+                            ("value does not match regex "
+                             "'http[s]?://(?:[a-zA-Z]|"
+                             "[0-9]|"
+                             "[$-_@.&+]|"
+                             "[!*\\(\\),]|"
+                             "(?:%[0-9a-fA-F]"
+                             "[0-9a-fA-F]))+'")
+                        ]
+                    }
+                }
+            }
+        }
+    )
+    assert v.validate(json.loads(response)), v.errors

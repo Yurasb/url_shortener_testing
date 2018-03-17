@@ -1,5 +1,6 @@
 import pytest
 import requests
+import websocket
 
 
 @pytest.fixture
@@ -26,3 +27,14 @@ def redirect_by_id(request, create_shortcut_link):
             create_shortcut_link.json()['id']
         )
     )
+
+
+@pytest.fixture
+def ws_connection(request):
+    ws = websocket.create_connection('ws://127.0.0.1:8888/ws')
+
+    def fin():
+        ws.close()
+
+    request.addfinalizer(fin)
+    return ws
