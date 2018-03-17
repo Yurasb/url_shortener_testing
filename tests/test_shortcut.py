@@ -146,7 +146,7 @@ def test_shortcut_invalid_json_body():
 
 @allure.feature('Shortcut handler')
 @allure.story('WebSocket query with invalid JSON data')
-def test_ws_shortcut_invalid_json(purge_all_links, ws_connection):
+def test_ws_shortcut_invalid_json(ws_connection):
     ws_connection.send(json.dumps(
         {
             'command': 'shortcut',
