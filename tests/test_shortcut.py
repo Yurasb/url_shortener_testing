@@ -208,7 +208,8 @@ def test_ws_shortcut_invalid_link(ws_connection):
                     'link': {
                         'type': 'list', 'allowed': [
                             ("value does not match regex "
-                             "'http[s]?://(?:[a-zA-Z]|"
+                             "'http[s]?://"
+                             "(?:[a-zA-Z]|"
                              "[0-9]|"
                              "[$-_@.&+]|"
                              "[!*\\(\\),]|"
