@@ -59,6 +59,74 @@ def test_stats_redirected_body(
 
 
 @allure.feature('Stats handler')
+@allure.story('Valid WebSocket query not-redirected link')
+def test_ws_stats_valid_query_new(
+        purge_all_links, create_shortcut_link, ws_connection
+):
+    ws_connection.send(json.dumps(
+        {
+            'command': 'get_stats',
+            'body': {
+                'id': create_shortcut_link.json()['id']
+            }
+        }
+    ))
+    response = ws_connection.recv()
+
+    v = Validator(
+        {
+            'code': {'type': 'integer', 'allowed': [200]},
+            'body': {
+                'type': 'dict',
+                'schema': {
+                    'last_redirected': {
+                        'nullable': True, 'type': 'float'
+                    },
+                    'redirects_count': {
+                        'type': 'integer', 'allowed': [0]
+                    }
+                }
+            }
+        }
+    )
+    assert v.validate(json.loads(response)), v.errors
+
+
+@allure.feature('Stats handler')
+@allure.story('Valid WebSocket query redirected link')
+def test_ws_stats_valid_query_redirected(
+        purge_all_links, create_shortcut_link, redirect_by_id, ws_connection
+):
+    ws_connection.send(json.dumps(
+        {
+            'command': 'get_stats',
+            'body': {
+                'id': create_shortcut_link.json()['id']
+            }
+        }
+    ))
+    response = ws_connection.recv()
+
+    v = Validator(
+        {
+            'code': {'type': 'integer', 'allowed': [200]},
+            'body': {
+                'type': 'dict',
+                'schema': {
+                    'last_redirected': {
+                        'nullable': False, 'type': 'float'
+                    },
+                    'redirects_count': {
+                        'type': 'integer', 'allowed': [1]
+                    }
+                }
+            }
+        }
+    )
+    assert v.validate(json.loads(response)), v.errors
+
+
+@allure.feature('Stats handler')
 @allure.story('Invalid JSON data status code')
 def test_stats_invalid_json_status_code(
         purge_all_links, create_shortcut_link

@@ -1,3 +1,4 @@
+import json
 import allure
 import requests
 from cerberus import Validator
@@ -30,6 +31,31 @@ def test_delete_all_links_removed(create_shortcut_link):
     )
     v = Validator({'links': {}})
     assert v.validate(check.json()), v.errors
+
+
+@allure.feature('Delete handler')
+@allure.story('Valid WebSocket query')
+def test_ws_delete_all_links_valid_query(
+        create_shortcut_link, ws_connection
+):
+    ws_connection.send(json.dumps(
+        {
+            'command': 'purge_all',
+            'body': {'confirm': 'yes'}
+        }
+    ))
+    response = ws_connection.recv()
+
+    v = Validator(
+        {
+            'code': {
+                'type': 'integer',
+                'allowed': [200]
+            },
+            'body': {'empty': True}
+        }
+    )
+    assert v.validate(json.loads(response)), v.errors
 
 
 @allure.feature('Delete handler')
