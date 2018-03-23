@@ -8,9 +8,7 @@ from lxml import html
 
 @allure.feature('Stats handler')
 @allure.story('Valid request status code')
-def test_stats_status_code(
-        purge_all_links, create_shortcut_link, redirect_by_id
-):
+def test_stats_status_code(create_shortcut_link, redirect_by_id):
     response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': create_shortcut_link.json()['id']})
@@ -24,7 +22,7 @@ def test_stats_status_code(
 
 @allure.feature('Stats handler')
 @allure.story('Valid request not-redirected link response body')
-def test_stats_new_body(purge_all_links, create_shortcut_link):
+def test_stats_new_body(create_shortcut_link):
     response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': create_shortcut_link.json()['id']})
@@ -41,9 +39,7 @@ def test_stats_new_body(purge_all_links, create_shortcut_link):
 
 @allure.feature('Stats handler')
 @allure.story('Valid request redirected link response body')
-def test_stats_redirected_body(
-        purge_all_links, create_shortcut_link, redirect_by_id
-):
+def test_stats_redirected_body(create_shortcut_link, redirect_by_id):
     response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': create_shortcut_link.json()['id']})
@@ -60,9 +56,7 @@ def test_stats_redirected_body(
 
 @allure.feature('Stats handler')
 @allure.story('Valid WebSocket query not-redirected link')
-def test_ws_stats_valid_query_new(
-        purge_all_links, create_shortcut_link, ws_connection
-):
+def test_ws_stats_valid_query_new(create_shortcut_link, ws_connection):
     ws_connection.send(json.dumps(
         {
             'command': 'get_stats',
@@ -95,7 +89,7 @@ def test_ws_stats_valid_query_new(
 @allure.feature('Stats handler')
 @allure.story('Valid WebSocket query redirected link')
 def test_ws_stats_valid_query_redirected(
-        purge_all_links, create_shortcut_link, redirect_by_id, ws_connection
+        create_shortcut_link, redirect_by_id, ws_connection
 ):
     ws_connection.send(json.dumps(
         {
@@ -128,9 +122,7 @@ def test_ws_stats_valid_query_redirected(
 
 @allure.feature('Stats handler')
 @allure.story('Invalid JSON data status code')
-def test_stats_invalid_json_status_code(
-        purge_all_links, create_shortcut_link
-):
+def test_stats_invalid_json_status_code(create_shortcut_link):
     response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps(create_shortcut_link.json()['id'])
@@ -144,9 +136,7 @@ def test_stats_invalid_json_status_code(
 
 @allure.feature('Stats handler')
 @allure.story('Invalid JSON data response body')
-def test_stats_invalid_json_body(
-        purge_all_links, create_shortcut_link
-):
+def test_stats_invalid_json_body(create_shortcut_link):
     response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps(create_shortcut_link.json()['id'])
@@ -162,7 +152,7 @@ def test_stats_invalid_json_body(
 
 @allure.feature('Stats handler')
 @allure.story('Invalid link ID status code')
-def test_stats_invalid_id_status_code(purge_all_links):
+def test_stats_invalid_id_status_code():
     response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': str(uuid.uuid4())})
@@ -176,7 +166,7 @@ def test_stats_invalid_id_status_code(purge_all_links):
 
 @allure.feature('Stats handler')
 @allure.story('Invalid link ID response body')
-def test_stats_invalid_id_body(purge_all_links):
+def test_stats_invalid_id_body():
     response = requests.post(
         url='http://localhost:8888/stats',
         data=json.dumps({'id': str(uuid.uuid4())})
@@ -220,3 +210,25 @@ def test_stats_wrong_method_body():
         }
     )
     assert v.validate(response.json()), v.errors
+
+
+@allure.feature('Stats handler')
+@allure.story('WebSocket query with invalid link ID')
+def test_ws_stats_invalid_id(ws_connection):
+    ws_connection.send(json.dumps(
+        {
+            'command': 'get_stats',
+            'body': {
+                'id': str(uuid.uuid4())[10]
+            }
+        }
+    ))
+    response = ws_connection.recv()
+
+    v = Validator(
+        {
+            'code': {'type': 'integer', 'allowed': [404]},
+            'error': {'type': 'string', 'allowed': ['Not Found']}
+        }
+    )
+    assert v.validate(json.loads(response)), v.errors

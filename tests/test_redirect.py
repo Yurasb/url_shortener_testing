@@ -9,9 +9,7 @@ URL = 'https://github.com/Yurasb/url_shortener_testing'
 
 @allure.feature('Redirect handler')
 @allure.story('Valid request status code')
-def test_redirect_status_code(
-        purge_all_links, create_shortcut_link
-):
+def test_redirect_status_code(create_shortcut_link):
     response = requests.get(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
@@ -27,9 +25,7 @@ def test_redirect_status_code(
 
 @allure.feature('Redirect handler')
 @allure.story('Valid request is redirected')
-def test_redirect_is_redirect(
-        purge_all_links, create_shortcut_link
-):
+def test_redirect_is_redirect(create_shortcut_link):
     response = requests.get(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
@@ -41,9 +37,7 @@ def test_redirect_is_redirect(
 
 @allure.feature('Redirect handler')
 @allure.story('Valid request redirect location')
-def test_redirect_location(
-        purge_all_links, create_shortcut_link
-):
+def test_redirect_location(create_shortcut_link):
     response = requests.get(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
@@ -59,9 +53,7 @@ def test_redirect_location(
 
 @allure.feature('Redirect handler')
 @allure.story('Valid request response body')
-def test_redirect_body(
-        purge_all_links, create_shortcut_link
-):
+def test_redirect_body(create_shortcut_link):
     response = requests.get(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
@@ -77,9 +69,7 @@ def test_redirect_body(
 
 @allure.feature('Redirect handler')
 @allure.story('Invalid method status code')
-def test_redirect_wrong_method_status_code(
-        purge_all_links, create_shortcut_link
-):
+def test_redirect_wrong_method_status_code(create_shortcut_link):
     response = requests.post(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
@@ -95,9 +85,7 @@ def test_redirect_wrong_method_status_code(
 
 @allure.feature('Redirect handler')
 @allure.story('Invalid method response body')
-def test_redirect_wrong_method_body(
-        purge_all_links, create_shortcut_link
-):
+def test_redirect_wrong_method_body(create_shortcut_link):
     response = requests.post(
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
@@ -116,7 +104,7 @@ def test_redirect_wrong_method_body(
 
 @allure.feature('Redirect handler')
 @allure.story('Invalid link ID status code')
-def test_redirect_invalid_id_status_code(purge_all_links):
+def test_redirect_invalid_id_status_code():
     response = requests.get(
         url='http://localhost:8888/r/{}'.format(uuid.uuid4())
     )
@@ -129,7 +117,7 @@ def test_redirect_invalid_id_status_code(purge_all_links):
 
 @allure.feature('Redirect handler')
 @allure.story('Invalid link ID response body')
-def test_redirect_invalid_id_body(purge_all_links):
+def test_redirect_invalid_id_body():
     response = requests.get(
         url='http://localhost:8888/r/{}'.format(uuid.uuid4())
     )

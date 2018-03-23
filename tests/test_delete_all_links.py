@@ -118,3 +118,56 @@ def test_delete_all_links_no_confirmation_body():
         }
     )
     assert v.validate(response.json()), v.errors
+
+
+@allure.feature('Delete handler')
+@allure.story('Valid WebSocket query with no confirmation')
+def test_ws_delete_all_links_no_confirmation(ws_connection):
+    ws_connection.send(json.dumps(
+        {
+            'command': 'purge_all',
+            'body': {'confirm': 'no'}
+        }
+    ))
+    response = ws_connection.recv()
+
+    v = Validator(
+        {
+            'code': {'type': 'integer', 'allowed': [400]},
+            'error': {
+                'type': 'dict',
+                'schema': {
+                    'confirm': {
+                        'type': 'list',
+                        'allowed': ['unallowed value no']
+                    }
+                }
+            }
+        }
+    )
+    assert v.validate(json.loads(response)), v.errors
+
+
+@allure.feature('Delete handler')
+@allure.story('WebSocket query without confirmation field')
+def test_ws_delete_all_links_confirm_missing(ws_connection):
+    ws_connection.send(json.dumps(
+        {'command': 'purge_all', 'body': {}}
+    ))
+    response = ws_connection.recv()
+
+    v = Validator(
+        {
+            'code': {'type': 'integer', 'allowed': [400]},
+            'error': {
+                'type': 'dict',
+                'schema': {
+                    'confirm': {
+                        'type': 'list',
+                        'allowed': ['required field']
+                    }
+                }
+            }
+        }
+    )
+    assert v.validate(json.loads(response)), v.errors

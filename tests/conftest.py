@@ -3,7 +3,7 @@ import requests
 import websocket
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def purge_all_links(request):
     requests.delete(
         url='http://localhost:8888/admin/all_links',

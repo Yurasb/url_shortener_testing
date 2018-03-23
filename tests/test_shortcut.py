@@ -8,7 +8,7 @@ URL = 'https://github.com/Yurasb/url_shortener_testing'
 
 @allure.feature('Shortcut handler')
 @allure.story('Valid request status code')
-def test_shortcut_status_code(purge_all_links):
+def test_shortcut_status_code():
     response = requests.post(
         url='http://localhost:8888/shortcut',
         data=json.dumps({'link': URL})
@@ -22,7 +22,7 @@ def test_shortcut_status_code(purge_all_links):
 
 @allure.feature('Shortcut handler')
 @allure.story('Valid request response body')
-def test_shortcut_body(purge_all_links):
+def test_shortcut_body():
     response = requests.post(
         url='http://localhost:8888/shortcut',
         data=json.dumps({'link': URL})
@@ -36,7 +36,7 @@ def test_shortcut_body(purge_all_links):
 
 @allure.feature('Shortcut handler')
 @allure.story('Valid WebSocket query')
-def test_ws_shortcut_valid_query(purge_all_links, ws_connection):
+def test_ws_shortcut_valid_query(ws_connection):
     ws_connection.send(json.dumps(
         {
             'command': 'shortcut',
@@ -69,7 +69,7 @@ def test_ws_shortcut_valid_query(purge_all_links, ws_connection):
 
 @allure.feature('Shortcut handler')
 @allure.story('Check if shortcut is created')
-def test_shortcut_created(purge_all_links):
+def test_shortcut_created():
     requests.post(
         url='http://localhost:8888/shortcut',
         data=json.dumps({'link': URL})
