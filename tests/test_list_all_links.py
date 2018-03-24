@@ -114,7 +114,7 @@ def test_ws_list_all_links_not_empty(create_shortcut_link, ws_connection):
 def test_list_all_links_wrong_method_status_code():
     response = requests.post(
         url='http://localhost:8888/admin/all_links',
-        data='{}'
+        json={}
     )
     assert response.status_code == 405, (
         'Expected status code is 405, got {actual}'.format(
@@ -128,7 +128,7 @@ def test_list_all_links_wrong_method_status_code():
 def test_all_links_wrong_method_body():
     response = requests.post(
         url='http://localhost:8888/admin/all_links',
-        data='{}'
+        json={}
     )
 
     v = Validator(

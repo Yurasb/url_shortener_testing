@@ -9,7 +9,7 @@ from cerberus import Validator
 def test_delete_all_links_status_code(create_shortcut_link):
     response = requests.delete(
         url='http://localhost:8888/admin/all_links',
-        data='{"confirm":"Yes"}'
+        json={'confirm': 'Yes'}
     )
     assert response.status_code == 200, (
         'Expected status code is 200, got {actual}'.format(
@@ -23,7 +23,7 @@ def test_delete_all_links_status_code(create_shortcut_link):
 def test_delete_all_links_removed(create_shortcut_link):
     requests.delete(
         url='http://localhost:8888/admin/all_links',
-        data='{"confirm":"Yes"}'
+        json={'confirm': 'Yes'}
     )
 
     check = requests.get(
@@ -63,7 +63,7 @@ def test_ws_delete_all_links_valid_query(
 def test_delete_all_links_wrong_method_status_code():
     response = requests.post(
         url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
+        json={'Are you sure?': 'Yes'}
     )
     assert response.status_code == 405, (
         'Expected status code is 405, got {actual}'.format(
@@ -77,7 +77,7 @@ def test_delete_all_links_wrong_method_status_code():
 def test_delete_all_links_wrong_method_body():
     response = requests.post(
         url='http://localhost:8888/admin/all_links',
-        data='{"Are you sure?":"Yes"}'
+        json={'Are you sure?': 'Yes'}
     )
 
     v = Validator(

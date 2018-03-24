@@ -11,7 +11,7 @@ from lxml import html
 def test_stats_status_code(create_shortcut_link, redirect_by_id):
     response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps({'id': create_shortcut_link.json()['id']})
+        json={'id': create_shortcut_link.json()['id']}
     )
     assert response.status_code == 200, (
         'Expected status code is 200, got {actual}'.format(
@@ -25,7 +25,7 @@ def test_stats_status_code(create_shortcut_link, redirect_by_id):
 def test_stats_new_body(create_shortcut_link):
     response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps({'id': create_shortcut_link.json()['id']})
+        json={'id': create_shortcut_link.json()['id']}
     )
 
     v = Validator(
@@ -42,7 +42,7 @@ def test_stats_new_body(create_shortcut_link):
 def test_stats_redirected_body(create_shortcut_link, redirect_by_id):
     response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps({'id': create_shortcut_link.json()['id']})
+        json={'id': create_shortcut_link.json()['id']}
     )
 
     v = Validator(
@@ -155,7 +155,7 @@ def test_stats_invalid_json_body(create_shortcut_link):
 def test_stats_invalid_id_status_code():
     response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps({'id': str(uuid.uuid4())})
+        json={'id': str(uuid.uuid4())}
     )
     assert response.status_code == 404, (
         'Expected status code is 404, got {actual}'.format(
@@ -169,7 +169,7 @@ def test_stats_invalid_id_status_code():
 def test_stats_invalid_id_body():
     response = requests.post(
         url='http://localhost:8888/stats',
-        data=json.dumps({'id': str(uuid.uuid4())})
+        json={'id': str(uuid.uuid4())}
     )
 
     v = Validator(

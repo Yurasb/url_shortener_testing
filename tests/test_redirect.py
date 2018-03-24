@@ -74,7 +74,7 @@ def test_redirect_wrong_method_status_code(create_shortcut_link):
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         ),
-        data='{}'
+        json={}
     )
     assert response.status_code == 405, (
         'Expected status code is 405, got {actual}'.format(
@@ -90,7 +90,7 @@ def test_redirect_wrong_method_body(create_shortcut_link):
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         ),
-        data='{}'
+        json={}
     )
 
     v = Validator(

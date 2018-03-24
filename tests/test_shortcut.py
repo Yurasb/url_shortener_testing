@@ -11,7 +11,7 @@ URL = 'https://github.com/Yurasb/url_shortener_testing'
 def test_shortcut_status_code():
     response = requests.post(
         url='http://localhost:8888/shortcut',
-        data=json.dumps({'link': URL})
+        json={'link': URL}
     )
     assert response.status_code == 200, (
         'Expected status code is 200, got {actual}'.format(
@@ -25,7 +25,7 @@ def test_shortcut_status_code():
 def test_shortcut_body():
     response = requests.post(
         url='http://localhost:8888/shortcut',
-        data=json.dumps({'link': URL})
+        json={'link': URL}
     )
 
     v = Validator(
@@ -72,7 +72,7 @@ def test_ws_shortcut_valid_query(ws_connection):
 def test_shortcut_created():
     requests.post(
         url='http://localhost:8888/shortcut',
-        data=json.dumps({'link': URL})
+        json={'link': URL}
     )
 
     check = requests.get(
@@ -176,7 +176,7 @@ def test_ws_shortcut_invalid_json(ws_connection):
 def test_shortcut_invalid_link():
     response = requests.post(
         url='http://localhost:8888/shortcut',
-        data='{"link": "github.com/Yurasb/url_shortener_testing"}'
+        json={'link': 'github.com/Yurasb/url_shortener_testing'}
     )
     assert response.status_code == 400, (
         'Expected status code is 400, got {actual}'.format(
