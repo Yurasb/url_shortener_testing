@@ -40,19 +40,18 @@ def test_list_all_links_not_empty_status_code(create_shortcut_link):
         )
     )
 
+
 @allure.feature('List all links handler')
 @allure.story('Valid WebSocket request with empty link list')
 def test_ws_list_all_links_empty(ws_connection):
     ws_connection.send(json.dumps(
-        {'command': 'get_all_links', 'body': {}}
+        dict(command='get_all_links', body=dict())
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {'type': 'integer', 'allowed': [200]},
-            'body': {'type': 'dict', 'schema': {'links': {'empty': True}}}
-        }
+        dict(code=dict(type='integer', allowed=[200]),
+             body=dict(type='dict', schema=dict(links=dict(empty=True))))
     )
     assert v.validate(json.loads(response)), v.errors
 
@@ -65,16 +64,11 @@ def test_list_all_links_not_empty_body(create_shortcut_link):
     )
 
     v = Validator(
-        {
-            'links': {
-                'type': 'dict', 'schema': {
-                    str(create_shortcut_link.json()['id']): {
-                        'type': 'string',
-                        'allowed': ['https://github.com/Yurasb/url_shortener_testing']
-                    }
-                }
-            }
-        }
+        dict(links=dict(type='dict', schema={
+            str(create_shortcut_link.json()['id']): dict(
+                type='string', allowed=['https://github.com/Yurasb/url_shortener_testing']
+            )
+        }))
     )
     assert v.validate(response.json()), v.errors
 
@@ -83,28 +77,17 @@ def test_list_all_links_not_empty_body(create_shortcut_link):
 @allure.story('Valid WebSocket request with not empty link list')
 def test_ws_list_all_links_not_empty(create_shortcut_link, ws_connection):
     ws_connection.send(json.dumps(
-        {'command': 'get_all_links', 'body': {}}
+        dict(command='get_all_links', body={})
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {'type': 'integer', 'allowed': [200]},
-            'body': {
-                'type': 'dict',
-                'schema': {
-                    'links': {
-                        'type': 'dict',
-                        'schema':{
-                            str(create_shortcut_link.json()['id']): {
-                                'type': 'string',
-                                'allowed': ['https://github.com/Yurasb/url_shortener_testing']
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        dict(code=dict(type='integer', allowed=[200]),
+             body=dict(type='dict', schema=dict(
+                 links=dict(type='dict', schema={
+                     str(create_shortcut_link.json()['id']): dict(
+                         type='string', allowed=['https://github.com/Yurasb/url_shortener_testing']
+                     )}))))
     )
     assert v.validate(json.loads(response)), v.errors
 
@@ -114,7 +97,7 @@ def test_ws_list_all_links_not_empty(create_shortcut_link, ws_connection):
 def test_list_all_links_wrong_method_status_code():
     response = requests.post(
         url='http://localhost:8888/admin/all_links',
-        json={}
+        json=dict()
     )
     assert response.status_code == 405, (
         'Expected status code is 405, got {actual}'.format(
@@ -128,16 +111,12 @@ def test_list_all_links_wrong_method_status_code():
 def test_all_links_wrong_method_body():
     response = requests.post(
         url='http://localhost:8888/admin/all_links',
-        json={}
+        json=dict()
     )
 
     v = Validator(
-        {
-            'status': {'type': 'integer', 'allowed': [405]},
-            'message': {
-                'type': 'string', 'allowed': ['Method Not Allowed']
-            }
-        }
+        dict(status=dict(type='integer', allowed=[405]),
+             message=dict(type='string', allowed=['Method Not Allowed']))
     )
     assert v.validate(response.json()), v.errors
 
@@ -146,21 +125,14 @@ def test_all_links_wrong_method_body():
 @allure.story('WebSoc')
 def test_ws_list_all_links_no_body(ws_connection):
     ws_connection.send(json.dumps(
-        {'command': 'get_all_links'}
+        dict(command='get_all_links')
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {'type': 'integer', 'allowed': [400]},
-            'error': {
-                'type': 'dict',
-                'schema': {
-                    'body': {
-                        'type': 'list', 'allowed': ['required field']
-                    }
-                }
-            }
-        }
+        dict(code=dict(type='integer', allowed=[400]),
+             error=dict(type='dict', schema=dict(
+                 body=dict(type='list', allowed=['required field'])
+             )))
     )
     assert v.validate(json.loads(response)), v.errors

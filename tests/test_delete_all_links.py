@@ -9,7 +9,7 @@ from cerberus import Validator
 def test_delete_all_links_status_code(create_shortcut_link):
     response = requests.delete(
         url='http://localhost:8888/admin/all_links',
-        json={'confirm': 'Yes'}
+        json=dict(confirm='Yes')
     )
     assert response.status_code == 200, (
         'Expected status code is 200, got {actual}'.format(
@@ -23,13 +23,13 @@ def test_delete_all_links_status_code(create_shortcut_link):
 def test_delete_all_links_removed(create_shortcut_link):
     requests.delete(
         url='http://localhost:8888/admin/all_links',
-        json={'confirm': 'Yes'}
+        json=dict(confirm='Yes')
     )
 
     check = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
-    v = Validator({'links': {}})
+    v = Validator(dict(links={}))
     assert v.validate(check.json()), v.errors
 
 
@@ -39,21 +39,12 @@ def test_ws_delete_all_links_valid_query(
         create_shortcut_link, ws_connection
 ):
     ws_connection.send(json.dumps(
-        {
-            'command': 'purge_all',
-            'body': {'confirm': 'yes'}
-        }
+        dict(command='purge_all', body=dict(confirm='yes'))
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {
-                'type': 'integer',
-                'allowed': [200]
-            },
-            'body': {'empty': True}
-        }
+        dict(code=dict(type='integer', allowed=[200]), body=dict(empty=True))
     )
     assert v.validate(json.loads(response)), v.errors
 
@@ -77,16 +68,12 @@ def test_delete_all_links_wrong_method_status_code():
 def test_delete_all_links_wrong_method_body():
     response = requests.post(
         url='http://localhost:8888/admin/all_links',
-        json={'Are you sure?': 'Yes'}
+        json=dict(confirm='Yes')
     )
 
     v = Validator(
-        {
-            'status': {'type': 'integer', 'allowed': [405]},
-            'message': {
-                'type': 'string', 'allowed': ['Method Not Allowed']
-            }
-        }
+        dict(status=dict(type='integer', allowed=[405]),
+             message=dict(type='string', allowed=['Method Not Allowed']))
     )
     assert v.validate(response.json()), v.errors
 
@@ -112,10 +99,8 @@ def test_delete_all_links_no_confirmation_body():
     )
 
     v = Validator(
-        {
-            'message': {'type': 'string', 'allowed': ['Invalid json']},
-            'status': {'type': 'integer', 'allowed': [406]}
-        }
+        dict(message=dict(type='string', allowed=['Invalid json']),
+             status=dict(type='integer', allowed=[406]))
     )
     assert v.validate(response.json()), v.errors
 
@@ -124,26 +109,15 @@ def test_delete_all_links_no_confirmation_body():
 @allure.story('Valid WebSocket query with no confirmation')
 def test_ws_delete_all_links_no_confirmation(ws_connection):
     ws_connection.send(json.dumps(
-        {
-            'command': 'purge_all',
-            'body': {'confirm': 'no'}
-        }
+        dict(command='purge_all', body=dict(confirm='no'))
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {'type': 'integer', 'allowed': [400]},
-            'error': {
-                'type': 'dict',
-                'schema': {
-                    'confirm': {
-                        'type': 'list',
-                        'allowed': ['unallowed value no']
-                    }
-                }
-            }
-        }
+        dict(code=dict(type='integer', allowed=[400]),
+             error=dict(type='dict', schema=dict(
+                 confirm=dict(type='list', allowed=['unallowed value no'])
+             )))
     )
     assert v.validate(json.loads(response)), v.errors
 
@@ -152,22 +126,14 @@ def test_ws_delete_all_links_no_confirmation(ws_connection):
 @allure.story('WebSocket query without confirmation field')
 def test_ws_delete_all_links_confirm_missing(ws_connection):
     ws_connection.send(json.dumps(
-        {'command': 'purge_all', 'body': {}}
+        dict(command='purge_all', body=dict())
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {'type': 'integer', 'allowed': [400]},
-            'error': {
-                'type': 'dict',
-                'schema': {
-                    'confirm': {
-                        'type': 'list',
-                        'allowed': ['required field']
-                    }
-                }
-            }
-        }
+        dict(code=dict(type='integer', allowed=[400]),
+             error=dict(type='dict', schema=dict(
+                 confirm=dict(type='list', allowed=['required field'])
+             )))
     )
     assert v.validate(json.loads(response)), v.errors

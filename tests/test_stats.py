@@ -11,7 +11,7 @@ from lxml import html
 def test_stats_status_code(create_shortcut_link, redirect_by_id):
     response = requests.post(
         url='http://localhost:8888/stats',
-        json={'id': create_shortcut_link.json()['id']}
+        json=dict(id=create_shortcut_link.json()['id'])
     )
     assert response.status_code == 200, (
         'Expected status code is 200, got {actual}'.format(
@@ -25,14 +25,12 @@ def test_stats_status_code(create_shortcut_link, redirect_by_id):
 def test_stats_new_body(create_shortcut_link):
     response = requests.post(
         url='http://localhost:8888/stats',
-        json={'id': create_shortcut_link.json()['id']}
+        json=dict(id=create_shortcut_link.json()['id'])
     )
 
     v = Validator(
-        {
-            'last_redirected': {'nullable': True, 'type': 'float'},
-            'redirects_count': {'type': 'integer', 'allowed': [0]}
-        }
+        dict(last_redirected=dict(nullable=True, type='float'),
+             redirects_count=dict(type='integer', allowed=[0]))
     )
     assert v.validate(response.json()), v.errors
 
@@ -42,14 +40,12 @@ def test_stats_new_body(create_shortcut_link):
 def test_stats_redirected_body(create_shortcut_link, redirect_by_id):
     response = requests.post(
         url='http://localhost:8888/stats',
-        json={'id': create_shortcut_link.json()['id']}
+        json=dict(id=create_shortcut_link.json()['id'])
     )
 
     v = Validator(
-        {
-            'last_redirected': {'nullable': False, 'type': 'float'},
-            'redirects_count': {'type': 'integer', 'allowed': [1]}
-        }
+        dict(last_redirected=dict(nullable=False, type='float'),
+             redirects_count=dict(type='integer', allowed=[1]))
     )
     assert v.validate(response.json()), v.errors
 
@@ -58,30 +54,17 @@ def test_stats_redirected_body(create_shortcut_link, redirect_by_id):
 @allure.story('Valid WebSocket query not-redirected link')
 def test_ws_stats_valid_query_new(create_shortcut_link, ws_connection):
     ws_connection.send(json.dumps(
-        {
-            'command': 'get_stats',
-            'body': {
-                'id': create_shortcut_link.json()['id']
-            }
-        }
-    ))
+        dict(command='get_stats',
+             body=dict(id=create_shortcut_link.json()['id'])
+             )))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {'type': 'integer', 'allowed': [200]},
-            'body': {
-                'type': 'dict',
-                'schema': {
-                    'last_redirected': {
-                        'nullable': True, 'type': 'float'
-                    },
-                    'redirects_count': {
-                        'type': 'integer', 'allowed': [0]
-                    }
-                }
-            }
-        }
+        dict(code=dict(type='integer', allowed=[200]),
+             body=dict(type='dict', schema=dict(
+                 last_redirected=dict(nullable=True, type='float'),
+                 redirects_count=dict(type='integer', allowed=[0])
+             )))
     )
     assert v.validate(json.loads(response)), v.errors
 
@@ -92,30 +75,16 @@ def test_ws_stats_valid_query_redirected(
         create_shortcut_link, redirect_by_id, ws_connection
 ):
     ws_connection.send(json.dumps(
-        {
-            'command': 'get_stats',
-            'body': {
-                'id': create_shortcut_link.json()['id']
-            }
-        }
+        dict(command='get_stats', body=dict(id=create_shortcut_link.json()['id']))
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {'type': 'integer', 'allowed': [200]},
-            'body': {
-                'type': 'dict',
-                'schema': {
-                    'last_redirected': {
-                        'nullable': False, 'type': 'float'
-                    },
-                    'redirects_count': {
-                        'type': 'integer', 'allowed': [1]
-                    }
-                }
-            }
-        }
+        dict(code=dict(type='integer', allowed=[200]),
+             body=dict(type='dict', schema=dict(
+                 last_redirected=dict(nullable=False, type='float'),
+                 redirects_count=dict(type='integer', allowed=[1])
+             )))
     )
     assert v.validate(json.loads(response)), v.errors
 
@@ -155,7 +124,7 @@ def test_stats_invalid_json_body(create_shortcut_link):
 def test_stats_invalid_id_status_code():
     response = requests.post(
         url='http://localhost:8888/stats',
-        json={'id': str(uuid.uuid4())}
+        json=dict(id=str(uuid.uuid4()))
     )
     assert response.status_code == 404, (
         'Expected status code is 404, got {actual}'.format(
@@ -169,14 +138,12 @@ def test_stats_invalid_id_status_code():
 def test_stats_invalid_id_body():
     response = requests.post(
         url='http://localhost:8888/stats',
-        json={'id': str(uuid.uuid4())}
+        json=dict(id=str(uuid.uuid4()))
     )
 
     v = Validator(
-        {
-            'status': {'type': 'integer', 'allowed': [404]},
-            'message': {'type': 'string', 'allowed': ['Not Found']}
-        }
+        dict(status=dict(type='integer', allowed=[404]),
+             message=dict(type='string', allowed=['Not Found']))
     )
     assert v.validate(response.json()), v.errors
 
@@ -202,12 +169,8 @@ def test_stats_wrong_method_body():
     )
 
     v = Validator(
-        {
-            'status': {'type': 'integer', 'allowed': [405]},
-            'message': {
-                'type': 'string', 'allowed': ['Method Not Allowed']
-            }
-        }
+        dict(status=dict(type='integer', allowed=[405]),
+             message=dict(type='string', allowed=['Method Not Allowed']))
     )
     assert v.validate(response.json()), v.errors
 
@@ -216,19 +179,12 @@ def test_stats_wrong_method_body():
 @allure.story('WebSocket query with invalid link ID')
 def test_ws_stats_invalid_id(ws_connection):
     ws_connection.send(json.dumps(
-        {
-            'command': 'get_stats',
-            'body': {
-                'id': str(uuid.uuid4())[10]
-            }
-        }
+        dict(command='get_stats', body=dict(id=str(uuid.uuid4())[10]))
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {'type': 'integer', 'allowed': [404]},
-            'error': {'type': 'string', 'allowed': ['Not Found']}
-        }
+        dict(code=dict(type='integer', allowed=[404]),
+             error=dict(type='string', allowed=['Not Found']))
     )
     assert v.validate(json.loads(response)), v.errors

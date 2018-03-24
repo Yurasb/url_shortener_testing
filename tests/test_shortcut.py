@@ -11,7 +11,7 @@ URL = 'https://github.com/Yurasb/url_shortener_testing'
 def test_shortcut_status_code():
     response = requests.post(
         url='http://localhost:8888/shortcut',
-        json={'link': URL}
+        json=dict(link=URL)
     )
     assert response.status_code == 200, (
         'Expected status code is 200, got {actual}'.format(
@@ -25,11 +25,11 @@ def test_shortcut_status_code():
 def test_shortcut_body():
     response = requests.post(
         url='http://localhost:8888/shortcut',
-        json={'link': URL}
+        json=dict(link=URL)
     )
 
     v = Validator(
-        {'id': {'type': 'string', 'allowed': [response.json()['id']]}}
+        dict(id=dict(type='string', allowed=[response.json()['id']]))
     )
     assert v.validate(response.json()), v.errors
 
@@ -38,12 +38,8 @@ def test_shortcut_body():
 @allure.story('Valid WebSocket query')
 def test_ws_shortcut_valid_query(ws_connection):
     ws_connection.send(json.dumps(
-        {
-            'command': 'shortcut',
-            'body': {
-                'link': 'https://github.com/Yurasb/url_shortener_testing'
-            }
-        }
+        dict(command='shortcut',
+             body=dict(link='https://github.com/Yurasb/url_shortener_testing'))
     ))
     response = ws_connection.recv()
 
@@ -51,18 +47,11 @@ def test_ws_shortcut_valid_query(ws_connection):
         url='http://localhost:8888/admin/all_links'
     )
     v = Validator(
-        {
-            'code': {
-                'type': 'integer', 'allowed': [200]
-            },
-            'body': {
-                'type': 'dict', 'schema': {
-                    'id': {
-                        'type': 'string', 'allowed': list(check.json()['links'].keys())
-                    }
-                }
-            }
-        }
+        dict(code=dict(type='integer', allowed=[200]),
+             body=dict(type='dict', schema=dict(
+                 id=dict(type='string', allowed=list(
+                     check.json()['links'].keys()
+                 )))))
     )
     assert v.validate(json.loads(response)), v.errors
 
@@ -72,7 +61,7 @@ def test_ws_shortcut_valid_query(ws_connection):
 def test_shortcut_created():
     requests.post(
         url='http://localhost:8888/shortcut',
-        json={'link': URL}
+        json=dict(link=URL)
     )
 
     check = requests.get(
@@ -104,10 +93,8 @@ def test_shortcut_wrong_method_body():
     )
 
     v = Validator(
-        {
-            'status': {'type': 'integer', 'allowed': [405]},
-            'message': {'type': 'string', 'allowed': ['Method Not Allowed']}
-        }
+        dict(status=dict(type='integer', allowed=[405]),
+             message=dict(type='string', allowed=['Method Not Allowed']))
     )
     assert v.validate(response.json()), v.errors
 
@@ -135,10 +122,8 @@ def test_shortcut_invalid_json_body():
     )
 
     v = Validator(
-        {
-            'message': {'type': 'string', 'allowed': ['Invalid json']},
-            'status': {'type': 'integer', 'allowed': [406]}
-        }
+        dict(message=dict(type='string', allowed=['Invalid json']),
+             status=dict(type='integer', allowed=[406]))
     )
     assert v.validate(response.json()), v.errors
 
@@ -147,26 +132,15 @@ def test_shortcut_invalid_json_body():
 @allure.story('WebSocket query with invalid JSON data')
 def test_ws_shortcut_invalid_json(ws_connection):
     ws_connection.send(json.dumps(
-        {
-            'command': 'shortcut',
-            'body': 'https://github.com/Yurasb/url_shortener_testing'
-        }
+        dict(command='shortcut', body='https://github.com/Yurasb/url_shortener_testing')
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {
-                'type': 'integer', 'allowed': [400]
-            },
-            'error': {
-                'type': 'dict', 'schema': {
-                    'body': {
-                        'type': 'list', 'allowed': ['must be of dict type']
-                    }
-                }
-            }
-        }
+        dict(code=dict(type='integer', allowed=[400]),
+             error=dict(type='dict', schema=dict(
+                 body=dict(type='list', allowed=['must be of dict type'])
+             )))
     )
     assert v.validate(json.loads(response)), v.errors
 
@@ -176,7 +150,7 @@ def test_ws_shortcut_invalid_json(ws_connection):
 def test_shortcut_invalid_link():
     response = requests.post(
         url='http://localhost:8888/shortcut',
-        json={'link': 'github.com/Yurasb/url_shortener_testing'}
+        json=dict(link='github.com/Yurasb/url_shortener_testing')
     )
     assert response.status_code == 400, (
         'Expected status code is 400, got {actual}'.format(
@@ -189,36 +163,18 @@ def test_shortcut_invalid_link():
 @allure.story('WebSocket query with invalid link')
 def test_ws_shortcut_invalid_link(ws_connection):
     ws_connection.send(json.dumps(
-        {
-            'command': 'shortcut',
-            'body': {
-                'link': 'github.com/Yurasb/url_shortener_testing'
-            }
-        }
+        dict(command='shortcut',
+             body=dict(link='github.com/Yurasb/url_shortener_testing'))
     ))
     response = ws_connection.recv()
 
     v = Validator(
-        {
-            'code': {
-                'type': 'integer', 'allowed': [400]
-            },
-            'error': {
-                'type': 'dict', 'schema': {
-                    'link': {
-                        'type': 'list', 'allowed': [
-                            ("value does not match regex "
-                             "'http[s]?://"
-                             "(?:[a-zA-Z]|"
-                             "[0-9]|"
-                             "[$-_@.&+]|"
-                             "[!*\\(\\),]|"
-                             "(?:%[0-9a-fA-F]"
-                             "[0-9a-fA-F]))+'")
-                        ]
-                    }
-                }
-            }
-        }
+        dict(code=dict(type='integer', allowed=[400]),
+             error=dict(type='dict', schema=dict(
+                 link=dict(type='list', allowed=[(
+                     "value does not match regex "
+                     "'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|"
+                     "(?:%[0-9a-fA-F][0-9a-fA-F]))+'"
+                 )]))))
     )
     assert v.validate(json.loads(response)), v.errors

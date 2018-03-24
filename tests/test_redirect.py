@@ -90,14 +90,12 @@ def test_redirect_wrong_method_body(create_shortcut_link):
         url='http://localhost:8888/r/{}'.format(
             create_shortcut_link.json()['id']
         ),
-        json={}
+        json=dict()
     )
 
     v = Validator(
-        {
-            'status': {'type': 'integer', 'allowed': [405]},
-            'message': {'type': 'string', 'allowed': ['Method Not Allowed']}
-        }
+        dict(status=dict(type='integer', allowed=[405]),
+             message=dict(type='string', allowed=['Method Not Allowed']))
     )
     assert v.validate(response.json()), v.errors
 
@@ -123,9 +121,7 @@ def test_redirect_invalid_id_body():
     )
 
     v = Validator(
-        {
-            'status': {'type': 'integer', 'allowed': [404]},
-            'message': {'type': 'string', 'allowed': ['Not Found']}
-        }
+        dict(status=dict(type='integer', allowed=[404]),
+             message=dict(type='string', allowed=['Not Found']))
     )
     assert v.validate(response.json()), v.errors
