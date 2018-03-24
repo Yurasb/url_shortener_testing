@@ -29,7 +29,7 @@ def test_delete_all_links_removed(create_shortcut_link):
     check = requests.get(
         url='http://localhost:8888/admin/all_links'
     )
-    v = Validator(dict(links={}))
+    v = Validator(dict(links=dict()))
     assert v.validate(check.json()), v.errors
 
 

@@ -24,7 +24,7 @@ def test_list_all_links_empty_body():
         url='http://localhost:8888/admin/all_links'
     )
 
-    v = Validator({'links': {}})
+    v = Validator(dict(links=dict()))
     assert v.validate(response.json()), v.errors
 
 
@@ -77,7 +77,7 @@ def test_list_all_links_not_empty_body(create_shortcut_link):
 @allure.story('Valid WebSocket request with not empty link list')
 def test_ws_list_all_links_not_empty(create_shortcut_link, ws_connection):
     ws_connection.send(json.dumps(
-        dict(command='get_all_links', body={})
+        dict(command='get_all_links', body=dict())
     ))
     response = ws_connection.recv()
 
