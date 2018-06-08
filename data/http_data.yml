@@ -1,0 +1,5 @@
+---
+TC1:
+  method: POST
+  payload:
+    link: https://github.com/Yurasb/url_shortener_testing

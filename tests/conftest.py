@@ -2,6 +2,10 @@ import pytest
 import requests
 import websocket
 
+from client.client import HTTPClient
+from data.data_provider import DataProvider
+from logic.test_case import TestCase
+
 
 @pytest.fixture(autouse=True)
 def purge_all_links(request):
@@ -38,3 +42,27 @@ def ws_connection(request):
 
     request.addfinalizer(fin)
     return ws
+
+
+@pytest.fixture
+def test_context(request, params):
+    test_case = TestCase(params)
+    return test_case
+
+
+@pytest.fixture
+def http_client(request):
+    config = DataProvider.provide_config_for('http')
+    return HTTPClient(config)
+
+
+@pytest.fixture(params=['TC1'])
+def test_context(request):
+    test_data = DataProvider.provide_test_data_by_id(request.param)
+    return TestCase(test_data)
+
+
+@pytest.fixture(params=['TC1'])
+def expected_schema(request):
+    schema = DataProvider.provide_expected_schema_by_id(request.param)
+    return schema
