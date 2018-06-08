@@ -8,23 +8,12 @@ URL = 'https://github.com/Yurasb/url_shortener_testing'
 
 
 @allure.feature('Shortcut handler')
-@allure.story('Valid request')
+@allure.story('Valid HTTP request')
 def test_shortcut_status_code(http_client, test_context, expected_schema):
     client = http_client
     actual_response = client.create_shortcut(test_context)
     assert_that(actual_response.status_code, equal_to(200), 'status code')
     assert_that(actual_response.json(), match_to(expected_schema), 'response body')
-    # v = Validator({'id': {'type': 'integer', 'allowed': [200]}})
-    # assert v.validate(json_resp), v.errors
-    # response = requests.post(
-    #     url='http://localhost:8888/shortcut',
-    #     json=dict(link=URL)
-    # )
-    # assert response.status_code == 200, (
-    #     'Expected status code is 200, got {actual}'.format(
-    #         actual=response.status_code
-    #     )
-    # )
 
 
 # @allure.feature('Shortcut handler')
