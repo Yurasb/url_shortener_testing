@@ -3,3 +3,7 @@ TC1:
   method: POST
   payload:
     link: https://github.com/Yurasb/url_shortener_testing
+TC2:
+  command: shortcut
+  body:
+    link: https://github.com/Yurasb/url_shortener_testing

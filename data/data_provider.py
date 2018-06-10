@@ -11,7 +11,7 @@ class DataProvider:
 
     @staticmethod
     def provide_test_data_by_id(id):
-        with open('../data/http_data.yml', 'r') as stream:
+        with open('../data/test_data.yml', 'r') as stream:
             test_data = yaml.load(stream)
             return test_data[id]
 
