@@ -25,47 +25,25 @@ def test_ws_shortcut_valid_request(ws_client, ws_test_context, expected_schema):
     assert_that(actual_response['body'], match_to(expected_schema), 'response body')
 
 
-# @allure.feature('Shortcut handler')
-# @allure.story('Invalid method status code')
-# def test_shortcut_wrong_method_status_code():
-#     response = requests.get(
-#         url='http://localhost:8888/shortcut'
-#     )
-#     assert response.status_code == 405, (
-#         'Expected status code is 405, got {actual}'.format(
-#             actual=response.status_code
-#         )
-#     )
-#
-#
-# @allure.feature('Shortcut handler')
-# @allure.story('Invalid method response body')
-# def test_shortcut_wrong_method_body():
-#     response = requests.get(
-#         url='http://localhost:8888/shortcut'
-#     )
-#
-#     v = Validator(
-#         dict(status=dict(type='integer', allowed=[405]),
-#              message=dict(type='string', allowed=['Method Not Allowed']))
-#     )
-#     assert v.validate(response.json()), v.errors
-#
-#
-# @allure.feature('Shortcut handler')
-# @allure.story('Invalid JSON data status code')
-# def test_shortcut_invalid_json_status_code():
-#     response = requests.post(
-#         url='http://localhost:8888/shortcut',
-#         data='{ "link" "https://github.com/Yurasb/url_shortener_testing"}'
-#     )
-#     assert response.status_code == 406, (
-#         'Expected status code is 406, got {actual}'.format(
-#             actual=response.status_code
-#         )
-#     )
-#
-#
+@allure.feature('Shortcut handler')
+@allure.story('Invalid query with GET method')
+def test_http_shortcut_with_get(http_client, test_context, expected_schema):
+    client = http_client
+    actual_response = client.create_shortcut(test_context)
+    assert_that(actual_response.status_code, equal_to(405), 'status code')
+    assert_that(actual_response.json(), match_to(expected_schema), 'response body')
+
+
+# getting 500 Internal Server Error instead of expected 406 and message
+@allure.feature('Shortcut handler')
+@allure.story('Invalid query with bad payload')
+def test_http_shortcut_with_bad_payload(http_client, test_context, expected_schema):
+    client = http_client
+    actual_response = client.create_shortcut(test_context)
+    assert_that(actual_response.status_code, equal_to(406), 'status code')
+    assert_that(actual_response.json(), match_to(expected_schema), 'response body')
+
+
 # @allure.feature('Shortcut handler')
 # @allure.story('Invalid JSON data response body')
 # def test_shortcut_invalid_json_body():

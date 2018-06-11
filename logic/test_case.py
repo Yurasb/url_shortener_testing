@@ -1,7 +1,7 @@
 class HTTPTestCase:
     def __init__(self, data):
         self.method = data['method']
-        self.payload = None or data['payload']
+        self.payload = data['payload']
 
     def __str__(self):
         return 'Query {method} with body {payload}'.format(method=self.method, payload=self.payload)

@@ -62,7 +62,7 @@ def ws_client(request):
     return WSClient(config)
 
 
-@pytest.fixture(params=['TC1'])
+@pytest.fixture(params=['TC4'])
 def test_context(request):
     test_data = DataProvider.provide_test_data_by_id(request.param)
     return HTTPTestCase(test_data)
@@ -74,7 +74,7 @@ def ws_test_context(request):
     return WSTestCase(test_data)
 
 
-@pytest.fixture(params=['TC2'])
+@pytest.fixture(params=['TC4'])
 def expected_schema(request):
     schema = DataProvider.provide_expected_schema_by_id(request.param)
     return schema

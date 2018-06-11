@@ -4,3 +4,21 @@ TC1:
 TC2:
   id:
     type: 'string'
+TC3:
+  status:
+    type: 'integer'
+    allowed:
+    - 405
+  message:
+    type: 'string'
+    allowed:
+    - 'Method Not Allowed'
+TC4:
+  status:
+    type: 'integer'
+    allowed:
+    - 406
+  message:
+    type: 'string'
+    allowed:
+    - 'Invalid json'
