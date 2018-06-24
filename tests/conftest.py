@@ -2,8 +2,8 @@ import pytest
 import requests
 import websocket
 
+import data.data_provider as provide
 from client.client import HTTPClient, WSClient
-from data.data_provider import DataProvider
 from logic.test_case import HTTPTestCase, WSTestCase
 
 
@@ -52,29 +52,29 @@ def test_context(request, params):
 
 @pytest.fixture
 def http_client(request):
-    config = DataProvider.provide_config_for('http')
+    config = provide.client_configuration()
     return HTTPClient(config)
 
 
 @pytest.fixture
 def ws_client(request):
-    config = DataProvider.provide_config_for('ws')
+    config = provide.client_configuration()
     return WSClient(config)
 
 
-@pytest.fixture(params=['TC4'])
+@pytest.fixture(params=['TC1'])
 def test_context(request):
-    test_data = DataProvider.provide_test_data_by_id(request.param)
+    test_data = provide.test_data_by_id(request.param)
     return HTTPTestCase(test_data)
 
 
 @pytest.fixture(params=['TC2'])
 def ws_test_context(request):
-    test_data = DataProvider.provide_test_data_by_id(request.param)
+    test_data = provide.test_data_by_id(request.param)
     return WSTestCase(test_data)
 
 
-@pytest.fixture(params=['TC4'])
+@pytest.fixture(params=['TC2'])
 def expected_schema(request):
-    schema = DataProvider.provide_expected_schema_by_id(request.param)
+    schema = provide.expected_schema_by_id(request.param)
     return schema

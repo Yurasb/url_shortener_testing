@@ -10,10 +10,7 @@ class SchemaValidator(BaseMatcher):
         if not isinstance(item, dict):
             return False
         v = Validator(self.schema)
-        try:
-            return v.validate(item)
-        except AssertionError:
-            return v.errors
+        return v.validate(item)
 
     def describe_to(self, description):
         description.append_text('{}'.format(self.schema))
