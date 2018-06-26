@@ -1,10 +1,7 @@
 import pytest
 import requests
-import websocket
 
-import data.data_provider as provide
-from client.client import HTTPClient, WSClient
-from logic.test_case import HTTPTestCase, WSTestCase
+from data.data_helpers import get_data_by_id, get_schema_by_id
 
 
 @pytest.fixture(autouse=True)
@@ -33,48 +30,13 @@ def redirect_by_id(request, create_shortcut_link):
     )
 
 
-@pytest.fixture
-def ws_connection(request):
-    ws = websocket.create_connection('ws://127.0.0.1:8888/ws')
-
-    def fin():
-        ws.close()
-
-    request.addfinalizer(fin)
-    return ws
-
-
-@pytest.fixture
-def test_context(request, params):
-    test_case = HTTPTestCase(params)
-    return test_case
-
-
-@pytest.fixture
-def http_client(request):
-    config = provide.client_configuration()
-    return HTTPClient(config)
-
-
-@pytest.fixture
-def ws_client(request):
-    config = provide.client_configuration()
-    return WSClient(config)
-
-
 @pytest.fixture(params=['TC1'])
-def test_context(request):
-    test_data = provide.test_data_by_id(request.param)
-    return HTTPTestCase(test_data)
-
-
-@pytest.fixture(params=['TC2'])
-def ws_test_context(request):
-    test_data = provide.test_data_by_id(request.param)
-    return WSTestCase(test_data)
+def payload(request):
+    test_data = get_data_by_id(request.param)
+    return test_data
 
 
 @pytest.fixture(params=['TC2'])
 def expected_schema(request):
-    schema = provide.expected_schema_by_id(request.param)
+    schema = get_schema_by_id(request.param)
     return schema
