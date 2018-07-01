@@ -1,8 +1,6 @@
 import pytest
 import requests
 
-from data.data_helpers import get_data_by_id, get_schema_by_id
-
 
 @pytest.fixture(autouse=True)
 def purge_all_links(request):
@@ -28,15 +26,3 @@ def redirect_by_id(request, create_shortcut_link):
             create_shortcut_link.json()['id']
         )
     )
-
-
-@pytest.fixture(params=['TC1'])
-def payload(request):
-    test_data = get_data_by_id(request.param)
-    return test_data
-
-
-@pytest.fixture(params=['TC2'])
-def expected_schema(request):
-    schema = get_schema_by_id(request.param)
-    return schema
