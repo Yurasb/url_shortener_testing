@@ -1,7 +1,7 @@
 import allure
 from hamcrest import assert_that, equal_to
 
-from data import schemas, payloads
+from data import payloads, schemas
 from logic.validation import match_to
 from network.client import create_shortcut_by_http, create_shortcut_by_ws
 
