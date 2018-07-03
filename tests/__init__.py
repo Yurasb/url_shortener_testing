@@ -5,8 +5,8 @@ from lxml.html.clean import clean_html
 
 def parse_html(html_body):
     parser = html.HTMLParser()
-    un_parsed = clean_html(html_body)
-    tree = html.parse(StringIO(un_parsed), parser)
+    raw = clean_html(html_body)
+    tree = html.parse(StringIO(raw), parser)
     xml = etree.tostring(
         tree,
         pretty_print=True,

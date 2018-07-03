@@ -2,7 +2,7 @@ import yaml
 
 
 def config():
-    with open('../network/config.yml', 'r') as stream:
+    with open('../client_cfg.yml', 'r') as stream:
         config_data = yaml.load(stream)
         return config_data
 
@@ -31,3 +31,6 @@ class NetworkConfig:
 
     def __str__(self):
         return self.__base_url
+
+
+BASE_URL = NetworkConfig()

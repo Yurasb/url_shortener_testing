@@ -1,21 +1,20 @@
 import allure
-from hamcrest import assert_that, equal_to
+from hamcrest import assert_that
 
+from client import http, ws
 from data import payloads, schemas
-from logic.validation import match_to
-from network.client import create_shortcut_by_http, create_shortcut_by_ws
+from tests.matchers import match_to
 
 
 @allure.feature('Shortcut handler')
-@allure.story('Valid HTTP request')
-def test_valid_http_request():
-    actual_response = create_shortcut_by_http(payloads.VALID_SHORTCUT_PAYLOAD)
+@allure.story('HTTP Valid payload')
+def test_http_valid_payload():
+    response = http.create_shortcut(payloads.VALID_SHORTCUT_PAYLOAD)
+    assert_that(response, match_to(schemas.VALID_SHORTCUT_RESPONSE))
+
+
+@allure.feature('Shortcut handler')
+@allure.story('WS Valid payload')
+def test_ws_valid_payload():
+    actual_response = ws.create_shortcut(payloads.VALID_SHORTCUT_PAYLOAD)
     assert_that(actual_response, match_to(schemas.VALID_SHORTCUT_RESPONSE))
-
-
-@allure.feature('Shortcut handler')
-@allure.story('Valid WebSocket request')
-def test_valid_ws_request():
-    actual_response = create_shortcut_by_ws(payload=payloads.VALID_SHORTCUT_PAYLOAD)
-    assert_that(actual_response['code'], equal_to(200), 'status code')
-    assert_that(actual_response['body'], match_to(schemas.VALID_SHORTCUT_RESPONSE), 'response body')
