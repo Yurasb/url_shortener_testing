@@ -1,5 +1,5 @@
 # TODO move delete tests here because they're for same handler
-# TODO add method parametrization for client(?) with **kwargs
+# TODO add method parametrization for client(?) with **kwar
 import allure
 from hamcrest import assert_that
 
