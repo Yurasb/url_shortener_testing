@@ -2,11 +2,11 @@ import pytest
 import requests
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def purge_all_links(request):
     requests.delete(
         url='http://localhost:8888/admin/all_links',
-        data='{"confirm":"Yes"}'
+        json=dict(confirm='Yes')
     )
 
 
@@ -14,7 +14,7 @@ def purge_all_links(request):
 def create_shortcut_link(request):
     create = requests.post(
         url='http://localhost:8888/shortcut',
-        data='{ "link": "https://github.com/Yurasb/url_shortener_testing"}'
+        json=dict(link='https://github.com/Yurasb/url_shortener_testing')
     )
     return create
 
