@@ -1,3 +1,4 @@
+# TODO apply Mongo client for preconditions
 import pytest
 import requests
 
