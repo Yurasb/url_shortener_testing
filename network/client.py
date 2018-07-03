@@ -40,3 +40,19 @@ def purge_all_links_by_ws(payload=None):
     response = connection.recv()
     connection.close()
     return json.loads(response)
+
+
+def get_all_links_by_http():
+    response = request(
+        url='http://{}/admin/all_links'.format(BASE_URL),
+        method='GET'
+    )
+    return {'code': response.status_code, 'body': response.json()}
+
+
+def get_all_links_by_ws():
+    connection = websocket.create_connection('ws://{}/ws'.format(BASE_URL))
+    connection.send(json.dumps({'command': 'get_all_links', 'body': {}}))
+    response = connection.recv()
+    connection.close()
+    return json.loads(response)

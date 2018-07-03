@@ -22,3 +22,15 @@ VALID_PURGE_RESPONSE = {
     },
     'body': {'empty': True}
 }
+VALID_ALL_LINKS_EMPTY_LIST_RESPONSE = {
+    'code': {
+        'type': 'integer',
+        'allowed': [200]
+    },
+    'body': {
+        'type': 'dict',
+        'schema': {
+            'links': {'empty': True}
+        }
+    }
+}
