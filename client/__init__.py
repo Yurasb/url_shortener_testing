@@ -2,7 +2,8 @@ import yaml
 
 
 def config():
-    with open('../client_cfg.yml', 'r') as stream:
+    with open(
+            '/home/yury/PycharmProjects/url_shortener_testing/client_cfg.yml', 'r') as stream:
         config_data = yaml.load(stream)
         return config_data
 
