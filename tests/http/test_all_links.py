@@ -9,7 +9,7 @@ from tests.matchers import match_to
 @allure.feature('All links handler')
 @allure.story('HTTP GET when DB is empty')
 def test_http_valid_payload_when_db_is_empty():
-    response = http.all_links(method='GET')
+    response = http.all_links()
     assert_that(response, match_to(schemas.ALL_LINKS_EMPTY_DB_POSITIVE))
 
 
