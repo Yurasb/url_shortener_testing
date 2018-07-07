@@ -9,5 +9,5 @@ from tests.matchers import match_to
 @allure.feature('Shortcut handler')
 @allure.story('HTTP Valid payload')
 def test_http_valid_payload():
-    response = http.create_shortcut(payload=payloads.VALID_SHORTCUT_PAYLOAD)
-    assert_that(response, match_to(schemas.VALID_SHORTCUT_RESPONSE))
+    response = http.create_shortcut(payload=payloads.SHORTCUT_POSITIVE)
+    assert_that(response, match_to(schemas.SHORTCUT_POSITIVE))

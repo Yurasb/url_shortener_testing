@@ -1,4 +1,4 @@
-VALID_SHORTCUT_RESPONSE = {
+SHORTCUT_POSITIVE = {
     'code': {
         'type': 'integer',
         'allowed': [200]
@@ -15,14 +15,14 @@ VALID_SHORTCUT_RESPONSE = {
         }
     }
 }
-VALID_PURGE_RESPONSE = {
+PURGE_POSITIVE = {
     'code': {
         'type': 'integer',
         'allowed': [200]
     },
     'body': {'empty': True}
 }
-VALID_ALL_LINKS_EMPTY_LIST_RESPONSE = {
+ALL_LINKS_EMPTY_DB_POSITIVE = {
     'code': {
         'type': 'integer',
         'allowed': [200]

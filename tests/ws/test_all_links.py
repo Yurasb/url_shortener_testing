@@ -10,11 +10,11 @@ from tests.matchers import match_to
 @allure.story('WebSocket GET when DB is empty')
 def test_ws_valid_payload_when_db_is_empty():
     response = ws.get_all_links()
-    assert_that(response, match_to(schemas.VALID_ALL_LINKS_EMPTY_LIST_RESPONSE))
+    assert_that(response, match_to(schemas.ALL_LINKS_EMPTY_DB_POSITIVE))
 
 
 @allure.feature('All links handler')
 @allure.story('WebSocket DELETE with Confirmation')
 def test_ws_valid_payload(create_shortcut_link):
-    response = ws.purge_all_links(payload=payloads.VALID_PURGE_PAYLOAD)
-    assert_that(response, match_to(schemas.VALID_PURGE_RESPONSE))
+    response = ws.purge_all_links(payload=payloads.PURGE_POSITIVE)
+    assert_that(response, match_to(schemas.PURGE_POSITIVE))

@@ -1,2 +1,2 @@
-VALID_SHORTCUT_PAYLOAD = {'link': 'http://google.com'}
-VALID_PURGE_PAYLOAD = {'confirm': 'Yes'}
+SHORTCUT_POSITIVE = {'link': 'http://google.com'}
+PURGE_POSITIVE = {'confirm': 'Yes'}
