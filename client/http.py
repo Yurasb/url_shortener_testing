@@ -3,10 +3,10 @@ from requests import request
 from client import BASE_URL
 
 
-def create_shortcut(payload=None):
+def create_shortcut(method='POST', payload=None):
     response = request(
         url='http://{}/shortcut'.format(BASE_URL),
-        method='POST',
+        method=method,
         json=payload
     )
     return {'code': response.status_code, 'body': response.json()}

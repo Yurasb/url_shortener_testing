@@ -9,5 +9,7 @@ from tests.matchers import match_to
 @allure.feature('Shortcut handler')
 @allure.story('WS Valid payload')
 def test_ws_valid_payload():
-    actual_response = ws.create_shortcut(payloads.VALID_SHORTCUT_PAYLOAD)
+    actual_response = ws.create_shortcut(
+        payload=payloads.VALID_SHORTCUT_PAYLOAD
+    )
     assert_that(actual_response, match_to(schemas.VALID_SHORTCUT_RESPONSE))

@@ -16,5 +16,5 @@ def test_ws_valid_payload_when_db_is_empty():
 @allure.feature('All links handler')
 @allure.story('WebSocket DELETE with Confirmation')
 def test_ws_valid_payload(create_shortcut_link):
-    response = ws.purge_all_links(payloads.VALID_PURGE_PAYLOAD)
+    response = ws.purge_all_links(payload=payloads.VALID_PURGE_PAYLOAD)
     assert_that(response, match_to(schemas.VALID_PURGE_RESPONSE))
