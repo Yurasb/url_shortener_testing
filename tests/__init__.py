@@ -1,4 +1,3 @@
-# TODO split tests by protocol
 from io import BytesIO, StringIO
 from lxml import etree, html
 from lxml.html.clean import clean_html
