@@ -15,7 +15,7 @@ def test_http_valid_payload_when_db_is_empty():
 
 @allure.feature('All links handler')
 @allure.story('HTTP GET when DB is not empty')
-def test_http_valid_payload_when_db_is_empty(create_shortcut):
+def test_http_valid_payload_when_db_is_not_empty(create_shortcut):
     response = http.all_links()
     assert_that(response, match_to(schemas.ALL_LINKS_NOT_EMPTY_DB_POSITIVE))
 
