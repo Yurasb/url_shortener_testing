@@ -1,29 +1,33 @@
-# TODO apply Mongo client for preconditions
+from datetime import datetime
 import pytest
-import requests
+
+from tests import helpers
 
 
 @pytest.fixture(autouse=True)
-def purge_all_links(request):
-    requests.delete(
-        url='http://localhost:8888/admin/all_links',
-        json=dict(confirm='Yes')
+def remove_all_links(request):
+    helpers.purge_db()
+
+
+@pytest.fixture
+def create_shortcut(request):
+    helpers.insert_in_db(
+        {
+            'link': 'http://google.com',
+            'lid': 'test_id',
+            'r_count': 0,
+            'r_at': None
+        }
     )
 
 
 @pytest.fixture
-def create_shortcut_link(request):
-    create = requests.post(
-        url='http://localhost:8888/shortcut',
-        json=dict(link='https://github.com/Yurasb/url_shortener_testing')
-    )
-    return create
-
-
-@pytest.fixture
-def redirect_by_id(request, create_shortcut_link):
-    requests.get(
-        url='http://localhost:8888/r/{}'.format(
-            create_shortcut_link.json()['id']
-        )
+def create_shortcut_redirected(request):
+    helpers.insert_in_db(
+        {
+            'link': 'http://google.com',
+            'lid': 'test_id',
+            'r_count': 1,
+            'r_at': datetime.utcnow()
+        }
     )

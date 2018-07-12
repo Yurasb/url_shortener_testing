@@ -34,3 +34,23 @@ ALL_LINKS_EMPTY_DB_POSITIVE = {
         }
     }
 }
+ALL_LINKS_NOT_EMPTY_DB_POSITIVE = {
+    'code': {
+        'type': 'integer',
+        'allowed': [200]
+    },
+    'body': {
+        'type': 'dict',
+        'schema': {
+            'links': {
+                'type': 'dict',
+                'schema': {
+                    'test_id': {
+                        'type': 'string',
+                        'allowed': ['http://google.com']
+                    }
+                }
+            }
+        }
+    }
+}
